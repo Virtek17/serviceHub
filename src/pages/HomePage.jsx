@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { User, Store } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import RoleCard from "../common/RoleCard";
+import RoleCard from "../components/common/RoleCard";
 
 export default function HomePage() {
   const [selectedRole, setSelectedRole] = useState(null);

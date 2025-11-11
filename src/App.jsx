@@ -1,24 +1,27 @@
-import { Link, Route, Routes } from "react-router-dom";
-import HomePage from "./components/pages/HomePage";
-import ProviderDashboardPage from "./components/pages/ProviderDashboardPage";
-import BrowseProvidersPage from "./components/pages/BrowseProvidersPage";
-import ProviderProfilePage from "./components/pages/ProviderProfilePage";
-import ProviderSetupPage from "./components/pages/ProviderSetupPage";
+import { Routes, Route } from "react-router-dom";
+
+import MainLayout from "./layouts/MainLayout";
+
+import HomePage from "./pages/HomePage";
+import ProviderDashboardPage from "./pages/ProviderDashboardPage";
+import CustomerBrowsePage from "./pages/CustomerBrowsePage";
+import ProviderProfilePage from "./pages/ProviderProfilePage";
+import ProviderSetupPage from "./pages/ProviderSetupPage";
 
 function App() {
   return (
-    <div>
-      <Routes>
+    <Routes>
+      <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/provider/dashboard" element={<ProviderDashboardPage />} />
-        <Route path="/customer/browse" element={<BrowseProvidersPage />} />
+        <Route path="/customer/browse" element={<CustomerBrowsePage />} />
         <Route
           path="/customer/provider/:id"
           element={<ProviderProfilePage />}
         />
         <Route path="/provider/setup" element={<ProviderSetupPage />} />
-      </Routes>
-    </div>
+      </Route>
+    </Routes>
   );
 }
 
