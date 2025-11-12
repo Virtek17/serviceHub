@@ -1,6 +1,6 @@
 // Поиск мастеров
 // TODO: разбить на компоненты (компоненты уже есть )
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Search,
   MapPin,
@@ -13,6 +13,9 @@ import {
   Tag,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import ProviderCard from "../components/providers/ProviderCard";
+
+import { supabase } from "../lib/createClient";
 
 export default function CustomerBrowsePage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -20,6 +23,73 @@ export default function CustomerBrowsePage() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
+
+  const [providers, setProviders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // 🆕 Загрузка данных при монтировании
+  useEffect(() => {
+    const fetchProviders = async () => {
+      try {
+        setLoading(true);
+
+        // Получаем всех исполнителей с тегами и базовой инфой
+        const { data, error } = await supabase
+          .from("profiles")
+          .select(
+            `
+            id,
+            full_name,
+            city,
+            performer_profiles!inner(bio)
+          `
+          )
+          .order("full_name", { ascending: true });
+
+        if (error) throw error;
+
+        // Получаем теги для всех мастеров
+        const performerIds = data.map((p) => p.id);
+        const { data: tagsData } = await supabase
+          .from("performer_tags")
+          .select("performer_id, tag")
+          .in("performer_id", performerIds);
+
+        // Группируем теги по мастеру
+        const tagsByPerformer = {};
+        tagsData.forEach((t) => {
+          if (!tagsByPerformer[t.performer_id])
+            tagsByPerformer[t.performer_id] = [];
+          tagsByPerformer[t.performer_id].push(t.tag);
+        });
+
+        // Формируем данные в формате, совместимом с твоим UI
+        const formattedProviders = data.map((profile) => ({
+          id: profile.id, // UUID!
+          name: profile.full_name,
+          city: profile.city,
+          description:
+            profile.performer_profiles.bio || "Информация временно недоступна",
+          tags: tagsByPerformer[profile.id] || [],
+          rating: 4.8, // 🔜 позже можно добавить реальные отзывы
+          reviewCount: 0,
+          priceFrom: 1000, // 🔜 позже: MIN(services.price)
+          categories: [], // 🔜 пока пусто, но можно добавить
+          avatar: "https://placehold.co/150?text=👤", // 🔜 позже: фото из storage
+        }));
+
+        setProviders(formattedProviders);
+      } catch (err) {
+        console.error("Ошибка загрузки мастеров:", err);
+        setError("Не удалось загрузить список мастеров");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProviders();
+  }, []);
 
   // Mock data for demonstration
   const cities = [
@@ -54,78 +124,78 @@ export default function CustomerBrowsePage() {
     "макияж",
   ];
 
-  const providers = [
-    {
-      id: 1,
-      name: "Анна Смирнова",
-      city: "Москва",
-      description:
-        "Профессиональный мастер маникюра с опытом работы более 5 лет. Специализируюсь на классическом и аппаратном маникюре.",
-      tags: ["маникюр", "педикюр", "дизайн ногтей"],
-      rating: 4.8,
-      reviewCount: 124,
-      priceFrom: 1200,
-      categories: ["Маникюр", "Педикюр"],
-      avatar:
-        "https://images.unsplash.com/photo-1494790108755-2616c96f31d5?auto=format&fit=crop&w=150&q=80",
-    },
-    {
-      id: 2,
-      name: "Елена Козлова",
-      city: "Москва",
-      description:
-        "Мастер по наращиванию ресниц и оформлению бровей. Использую только качественные материалы.",
-      tags: ["брови", "ресницы", "татуаж"],
-      rating: 4.9,
-      reviewCount: 89,
-      priceFrom: 800,
-      categories: ["Брови", "Ресницы"],
-      avatar:
-        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80",
-    },
-    {
-      id: 3,
-      name: "Мария Петрова",
-      city: "Санкт-Петербург",
-      description:
-        "Стилист-парикмахер. Создаю стильные образы для любого случая. Специализируюсь на окрашивании и стрижках.",
-      tags: ["стрижка", "окрашивание", "укладка"],
-      rating: 4.7,
-      reviewCount: 203,
-      priceFrom: 2000,
-      categories: ["Стрижка", "Окрашивание"],
-      avatar:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80",
-    },
-    {
-      id: 4,
-      name: "Ольга Иванова",
-      city: "Москва",
-      description:
-        "Массажист и косметолог. Предлагаю широкий спектр услуг для ухода за телом и лицом.",
-      tags: ["массаж", "косметология", "депиляция"],
-      rating: 4.6,
-      reviewCount: 156,
-      priceFrom: 1500,
-      categories: ["Массаж", "Косметология"],
-      avatar:
-        "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?auto=format&fit=crop&w=150&q=80",
-    },
-    {
-      id: 5,
-      name: "Татьяна Волкова",
-      city: "Екатеринбург",
-      description:
-        "Мастер универсал. Выполняю маникюр, педикюр, наращивание ногтей. Индивидуальный подход к каждому клиенту.",
-      tags: ["маникюр", "педикюр", "наращивание"],
-      rating: 4.5,
-      reviewCount: 98,
-      priceFrom: 1000,
-      categories: ["Маникюр", "Педикюр"],
-      avatar:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80",
-    },
-  ];
+  // const providers = [
+  //   {
+  //     id: 1,
+  //     name: "Анна Смирнова",
+  //     city: "Москва",
+  //     description:
+  //       "Профессиональный мастер маникюра с опытом работы более 5 лет. Специализируюсь на классическом и аппаратном маникюре.",
+  //     tags: ["маникюр", "педикюр", "дизайн ногтей"],
+  //     rating: 4.8,
+  //     reviewCount: 124,
+  //     priceFrom: 1200,
+  //     categories: ["Маникюр", "Педикюр"],
+  //     avatar:
+  //       "https://images.unsplash.com/photo-1494790108755-2616c96f31d5?auto=format&fit=crop&w=150&q=80",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Елена Козлова",
+  //     city: "Москва",
+  //     description:
+  //       "Мастер по наращиванию ресниц и оформлению бровей. Использую только качественные материалы.",
+  //     tags: ["брови", "ресницы", "татуаж"],
+  //     rating: 4.9,
+  //     reviewCount: 89,
+  //     priceFrom: 800,
+  //     categories: ["Брови", "Ресницы"],
+  //     avatar:
+  //       "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Мария Петрова",
+  //     city: "Санкт-Петербург",
+  //     description:
+  //       "Стилист-парикмахер. Создаю стильные образы для любого случая. Специализируюсь на окрашивании и стрижках.",
+  //     tags: ["стрижка", "окрашивание", "укладка"],
+  //     rating: 4.7,
+  //     reviewCount: 203,
+  //     priceFrom: 2000,
+  //     categories: ["Стрижка", "Окрашивание"],
+  //     avatar:
+  //       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80",
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Ольга Иванова",
+  //     city: "Москва",
+  //     description:
+  //       "Массажист и косметолог. Предлагаю широкий спектр услуг для ухода за телом и лицом.",
+  //     tags: ["массаж", "косметология", "депиляция"],
+  //     rating: 4.6,
+  //     reviewCount: 156,
+  //     priceFrom: 1500,
+  //     categories: ["Массаж", "Косметология"],
+  //     avatar:
+  //       "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?auto=format&fit=crop&w=150&q=80",
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Татьяна Волкова",
+  //     city: "Екатеринбург",
+  //     description:
+  //       "Мастер универсал. Выполняю маникюр, педикюр, наращивание ногтей. Индивидуальный подход к каждому клиенту.",
+  //     tags: ["маникюр", "педикюр", "наращивание"],
+  //     rating: 4.5,
+  //     reviewCount: 98,
+  //     priceFrom: 1000,
+  //     categories: ["Маникюр", "Педикюр"],
+  //     avatar:
+  //       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80",
+  //   },
+  // ];
 
   const handleTagToggle = (tag) => {
     setSelectedTags((prev) =>
@@ -149,17 +219,8 @@ export default function CustomerBrowsePage() {
 
   const navigate = useNavigate();
 
-  // const handleProviderClick = (providerId) => {
-  //   window.location.href = `/customer/provider/${providerId}`;
-  // };
-
   return (
     <>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:wght@400;500&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet"
-      />
-
       <div className="min-h-screen bg-gradient-to-br from-[#F8F6F3] to-[#ECE9E5] dark:from-[#1A1A1A] dark:to-[#0F0F0F]">
         {/* Header */}
         <header className="px-6 py-6 border-b border-[#E0E0E0] dark:border-[#404040] bg-white/50 dark:bg-[#1E1E1E]/50 backdrop-blur-sm">
@@ -332,6 +393,33 @@ export default function CustomerBrowsePage() {
                   </p>
                 </div>
               ) : (
+                <div className="flex flex-col gap-6">
+                  {filteredProviders.map((provider) => (
+                    <ProviderCard
+                      name={provider.name}
+                      avatar={provider.avatar}
+                      description={provider.description}
+                      city={provider.city}
+                      categories={provider.categories}
+                      tags={provider.tags}
+                      priceFrom={provider.priceFrom}
+                      key={provider}
+                      onClick={() =>
+                        navigate(`/customer/provider/${provider.id}`)
+                      }
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </main>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/** 
                 <div className="space-y-6">
                   {filteredProviders.map((provider) => (
                     <div
@@ -341,7 +429,7 @@ export default function CustomerBrowsePage() {
                         navigate(`/customer/provider/${provider.id}`)
                       }
                     >
-                      {/* Avatar */}{" "}
+                      
                       <div className="flex items-start gap-6">
                         <img
                           src={provider.avatar}
@@ -349,7 +437,7 @@ export default function CustomerBrowsePage() {
                           className="w-20 h-20 rounded-2xl object-cover"
                         />
 
-                        {/* Content */}
+                        
                         <div className="flex-1">
                           <div className="flex items-start justify-between mb-3">
                             <div>
@@ -381,7 +469,7 @@ export default function CustomerBrowsePage() {
                             {provider.description}
                           </p>
 
-                          {/* Categories */}
+                          
                           <div className="flex flex-wrap gap-2 mb-4">
                             {provider.categories.map((category) => (
                               <span
@@ -393,7 +481,7 @@ export default function CustomerBrowsePage() {
                             ))}
                           </div>
 
-                          {/* Tags */}
+                          
                           <div className="flex flex-wrap gap-1.5 mb-4">
                             {provider.tags.map((tag) => (
                               <span
@@ -405,7 +493,7 @@ export default function CustomerBrowsePage() {
                             ))}
                           </div>
 
-                          {/* Price */}
+                          
                           <div className="flex items-center gap-1 text-lg font-semibold text-[#0D0D0D] dark:text-white">
                             <DollarSign size={18} />
                             <span>от {provider.priceFrom} ₽</span>
@@ -415,11 +503,4 @@ export default function CustomerBrowsePage() {
                     </div>
                   ))}
                 </div>
-              )}
-            </div>
-          </main>
-        </div>
-      </div>
-    </>
-  );
-}
+                */
