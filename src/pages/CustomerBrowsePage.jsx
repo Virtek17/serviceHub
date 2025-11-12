@@ -223,35 +223,45 @@ export default function CustomerBrowsePage() {
     <>
       <div className="min-h-screen bg-gradient-to-br from-[#F8F6F3] to-[#ECE9E5] dark:from-[#1A1A1A] dark:to-[#0F0F0F]">
         {/* Header */}
-        <header className="px-6 py-6 border-b border-[#E0E0E0] dark:border-[#404040] bg-white/50 dark:bg-[#1E1E1E]/50 backdrop-blur-sm">
-          <div className="max-w-[1200px] mx-auto flex items-center justify-between">
-            <div className="flex items-center space-x-6">
+        <header className="px-4 py-4 md:px-6 md:py-6 border-b border-[#E0E0E0] dark:border-[#404040] bg-white/50 dark:bg-[#1E1E1E]/50 backdrop-blur-sm">
+          <div className="max-w-[1200px] mx-auto flex flex-wrap items-center justify-between gap-3">
+            {/* Левая часть */}
+            <div className="flex items-center space-x-4 md:space-x-6">
               <button
                 onClick={() => navigate(`/`)}
-                className="flex items-center gap-2 text-[#666666] dark:text-[#AAAAAA] hover:text-[#0D0D0D] dark:hover:text-white transition-colors"
+                className="flex items-center gap-1.5 md:gap-2 text-[#666666] dark:text-[#AAAAAA] hover:text-[#0D0D0D] dark:hover:text-white transition-colors text-sm md:text-base"
               >
-                <ArrowLeft size={20} />
-                На главную
+                <ArrowLeft size={18} className="md:size-10" />
+                <span className="hidden sm:inline">На главную</span>
               </button>
 
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-[#8B70F6] to-[#9D7DFF] rounded-xl"></div>
-                <span className="text-[#0D0D0D] dark:text-white text-xl font-medium">
+              <div className="flex items-center space-x-2 md:space-x-3">
+                {/* <div className="w-7 h-7 md:w-8 md:h-8 bg-gradient-to-br from-[#8B70F6] to-[#9D7DFF] rounded-xl"></div>
+                <span className="text-[#0D0D0D] dark:text-white text-lg md:text-xl font-medium">
                   ServiceHub
-                </span>
+                </span> */}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 211 41" width="211" height="41">
+                  <path fill="#FF6F3C" d="M194.8,40.4h-61.7c-2.1,0-3.4-1.8-2.8-4l9.2-32.5c0.5-1.8,2.4-3.3,4.2-3.3h61.7c2.1,0,3.4,1.8,2.8,4l-9.2,32.5c-0.5,1.8-2.4,3.3-4.2,3.3Z" />
+                  <path fill="#FF6F3C" d="M11.6,16.7l-0.6,1.9h10.2l-2,7.4-3.7,2.6H0l1.3-4.4h10.2l0.6-2H1.9l2-7.3,3.7-2.7h15.4l-1.2,4.4h-10.2ZM20.6,28.6l4.7-16.3h17.3l-1.3,4.4h-9.2l-0.6,1.9h9.2l-1.1,3.6h-9.2l-0.6,1.9h9.2l-1.2,4.4h-17.4ZM39.6,28.6l4.7-16.3h19.2l-2,6.9-4.3,1.6,3.4,1.3-1.9,6.6h-8.5l1.3-4.4h-2l-1.3,4.4h-8.7ZM53.2,18.7l0.6-1.9h-1.9l-0.6,1.9h2ZM65.1,12.4h8.5l-2.8,10h2l2.8-10h8.5l-2.8,10-8.6,6.3h-5.2l-5.1-6.3,2.8-10ZM93.9,12.4l-4.7,16.3h-8.1l4.7-16.3h8.1ZM91,28.6l4.7-16.3h18.6l-2,7.1h-8.5l0.8-2.7h-2l-2.2,7.6h1.9l0.8-2.9h8.5l-1.3,4.7-3.7,2.6h-15.7ZM111.2,28.6l4.7-16.3h17.3l-1.3,4.4h-9.2l-0.6,1.9h9.2l-1.1,3.6h-9.2l-0.6,1.9h9.2l-1.2,4.4h-17.4Z" />
+
+                  <path fill="#1A1A1A" d="M141.2,12.4h8.5l-1.8,6.3h2l1.7-6.3h8.5l-4.7,16.3h-8.5l1.7-6.3h-1.9l-1.7,6.3h-8.5l4.7-16.3ZM157.2,28.6l4.7-16.3h8.6l-3.4,11.9h1.9l3.4-11.9h8.6l-3.9,13.7-3.7,2.6h-16.3ZM178.1,28.6l4.7-16.3h19.4l-2,6.9-3,1.3,2.5,0.7-1.4,4.7-3.7,2.6h-16.5ZM190.5,22.3h-1.9l-0.6,1.9h2l0.6-1.9ZM190.2,16.7l-0.6,1.9h2l0.6-1.9h-2Z" />
+                </svg>
+
               </div>
             </div>
 
-            <div className="text-sm text-[#666666] dark:text-[#AAAAAA]">
+            {/* Правая часть */}
+            <div className="text-xs md:text-sm text-[#666666] dark:text-[#AAAAAA] whitespace-nowrap">
               Найдено мастеров: {filteredProviders.length}
             </div>
           </div>
         </header>
 
-        <div className="flex">
+        <div className="flex flex-wrap">
           {/* Sidebar - Filters */}
-          <aside className="w-80 bg-white dark:bg-[#1E1E1E] border-r border-[#E0E0E0] dark:border-[#404040] min-h-[calc(100vh-88px)]">
-            <div className="p-6">
+          <aside className="w-full md:w-80 bg-white dark:bg-[#1E1E1E] border-r border-[#E0E0E0] dark:border-[#404040] min-h-[calc(100vh-88px)] flex flex-col">
+            <div className="p-6 flex flex-col flex-1">
+              {/* Заголовок фильтров */}
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-lg font-semibold text-[#0D0D0D] dark:text-white">
                   Фильтры
@@ -269,7 +279,8 @@ export default function CustomerBrowsePage() {
                 </button>
               </div>
 
-              <div className="space-y-6">
+              {/* Контент фильтров */}
+              <div className="flex flex-col flex-1 space-y-6 overflow-hidden">
                 {/* Search */}
                 <div>
                   <label className="block text-sm font-medium text-[#0D0D0D] dark:text-white mb-2">
@@ -329,34 +340,36 @@ export default function CustomerBrowsePage() {
                 </div>
 
                 {/* Tags */}
-                <div>
-                  <label className="block text-sm font-medium text-[#0D0D0D] dark:text-white mb-3">
+                <div className="flex flex-col overflow-hidden">
+                  <label className="block text-sm font-medium text-[#0D0D0D] dark:text-white mb-2">
                     Теги услуг
                   </label>
 
+                  {/* Выбранные теги */}
                   {selectedTags.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-3">
+                    <div className="flex flex-wrap gap-2 mb-2">
                       {selectedTags.map((tag) => (
                         <span
                           key={tag}
-                          className="inline-flex items-center px-3 py-1 rounded-full text-xs bg-[#FF6B9D] text-white cursor-pointer"
+                          className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[#FF6B9D] text-white cursor-pointer"
                           onClick={() => handleTagToggle(tag)}
                         >
                           {tag}
-                          <span className="ml-1">×</span>
+                          <span className="ml-1 text-sm">×</span>
                         </span>
                       ))}
                     </div>
                   )}
 
-                  <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto">
+                  {/* Доступные теги */}
+                  <div className="flex flex-wrap gap-2 overflow-y-auto md:overflow-visible">
                     {tags
                       .filter((tag) => !selectedTags.includes(tag))
                       .map((tag) => (
                         <button
                           key={tag}
                           onClick={() => handleTagToggle(tag)}
-                          className="px-3 py-1 rounded-full text-xs border border-[#E0E0E0] dark:border-[#404040] text-[#666666] dark:text-[#AAAAAA] hover:border-[#FF6B9D] hover:text-[#FF6B9D] transition-colors"
+                          className="px-3 py-1 rounded-full text-sm border border-[#E0E0E0] dark:border-[#404040] text-[#666666] dark:text-[#AAAAAA] hover:border-[#FF6B9D] hover:text-[#FF6B9D] transition-colors"
                         >
                           {tag}
                         </button>
@@ -368,7 +381,7 @@ export default function CustomerBrowsePage() {
           </aside>
 
           {/* Main Content */}
-          <main className="flex-1 p-8">
+          <main className="flex-1 p-6 md:p-8">
             <div className="max-w-[800px]">
               {/* Results Header */}
               <div className="mb-8">

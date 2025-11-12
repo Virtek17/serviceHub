@@ -129,10 +129,16 @@ export default function ProviderProfilePage() {
               </button>
 
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-[#8B70F6] to-[#9D7DFF] rounded-xl"></div>
+                {/* <div className="w-8 h-8 bg-gradient-to-br from-[#8B70F6] to-[#9D7DFF] rounded-xl"></div>
                 <span className="text-[#0D0D0D] dark:text-white text-xl font-medium">
                   ServiceHub
-                </span>
+                </span> */}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 211 41" width="211" height="41">
+                  <path fill="#FF6F3C" d="M194.8,40.4h-61.7c-2.1,0-3.4-1.8-2.8-4l9.2-32.5c0.5-1.8,2.4-3.3,4.2-3.3h61.7c2.1,0,3.4,1.8,2.8,4l-9.2,32.5c-0.5,1.8-2.4,3.3-4.2,3.3Z" />
+                  <path fill="#FF6F3C" d="M11.6,16.7l-0.6,1.9h10.2l-2,7.4-3.7,2.6H0l1.3-4.4h10.2l0.6-2H1.9l2-7.3,3.7-2.7h15.4l-1.2,4.4h-10.2ZM20.6,28.6l4.7-16.3h17.3l-1.3,4.4h-9.2l-0.6,1.9h9.2l-1.1,3.6h-9.2l-0.6,1.9h9.2l-1.2,4.4h-17.4ZM39.6,28.6l4.7-16.3h19.2l-2,6.9-4.3,1.6,3.4,1.3-1.9,6.6h-8.5l1.3-4.4h-2l-1.3,4.4h-8.7ZM53.2,18.7l0.6-1.9h-1.9l-0.6,1.9h2ZM65.1,12.4h8.5l-2.8,10h2l2.8-10h8.5l-2.8,10-8.6,6.3h-5.2l-5.1-6.3,2.8-10ZM93.9,12.4l-4.7,16.3h-8.1l4.7-16.3h8.1ZM91,28.6l4.7-16.3h18.6l-2,7.1h-8.5l0.8-2.7h-2l-2.2,7.6h1.9l0.8-2.9h8.5l-1.3,4.7-3.7,2.6h-15.7ZM111.2,28.6l4.7-16.3h17.3l-1.3,4.4h-9.2l-0.6,1.9h9.2l-1.1,3.6h-9.2l-0.6,1.9h9.2l-1.2,4.4h-17.4Z" />
+
+                  <path fill="#1A1A1A" d="M141.2,12.4h8.5l-1.8,6.3h2l1.7-6.3h8.5l-4.7,16.3h-8.5l1.7-6.3h-1.9l-1.7,6.3h-8.5l4.7-16.3ZM157.2,28.6l4.7-16.3h8.6l-3.4,11.9h1.9l3.4-11.9h8.6l-3.9,13.7-3.7,2.6h-16.3ZM178.1,28.6l4.7-16.3h19.4l-2,6.9-3,1.3,2.5,0.7-1.4,4.7-3.7,2.6h-16.5ZM190.5,22.3h-1.9l-0.6,1.9h2l0.6-1.9ZM190.2,16.7l-0.6,1.9h2l0.6-1.9h-2Z" />
+                </svg>
               </div>
             </div>
           </div>
@@ -141,8 +147,8 @@ export default function ProviderProfilePage() {
         <main className="p-6">
           <div className="max-w-[1000px] mx-auto">
             {/* Provider Profile */}
-            <div className="bg-white dark:bg-[#1E1E1E] rounded-3xl p-8 mb-8 border border-[#E0E0E0] dark:border-[#404040]">
-              <div className="flex items-start gap-8">
+            <div className="bg-white dark:bg-[#1E1E1E] rounded-3xl p-6 md:p-8 mb-8 border border-[#E0E0E0] dark:border-[#404040]">
+              <div className="flex items-start md:flex-row flex-col gap-8">
                 <img
                   src={provider.avatar}
                   alt={provider.name}
@@ -196,7 +202,7 @@ export default function ProviderProfilePage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Services */}
-              <div className="bg-white dark:bg-[#1E1E1E] rounded-3xl p-8 border border-[#E0E0E0] dark:border-[#404040]">
+              <div className="bg-white dark:bg-[#1E1E1E] rounded-3xl p-6 md:p-8 border border-[#E0E0E0] dark:border-[#404040]">
                 <h2 className="text-2xl font-semibold text-[#0D0D0D] dark:text-white mb-6">
                   Услуги
                 </h2>
@@ -249,7 +255,7 @@ export default function ProviderProfilePage() {
               </div>
 
               {/* Schedule */}
-              <div className="bg-white dark:bg-[#1E1E1E] rounded-3xl p-8 border border-[#E0E0E0] dark:border-[#404040]">
+              <div className="bg-white dark:bg-[#1E1E1E] rounded-3xl p-6 md:p-8 border border-[#E0E0E0] dark:border-[#404040]">
                 <h2 className="text-2xl font-semibold text-[#0D0D0D] dark:text-white mb-6">
                   Доступные слоты
                 </h2>
@@ -258,11 +264,10 @@ export default function ProviderProfilePage() {
                   {timeSlots.map((slot, index) => (
                     <div
                       key={index}
-                      className={`p-4 rounded-2xl border transition-colors ${
-                        slot.available
+                      className={`p-4 rounded-2xl border transition-colors ${slot.available
                           ? "border-[#E0E0E0] dark:border-[#404040] hover:border-[#10B981] cursor-pointer"
                           : "border-[#F87171]/20 bg-[#F87171]/5 cursor-not-allowed"
-                      }`}
+                        }`}
                       onClick={() => slot.available && handleSlotSelect(slot)}
                     >
                       <div className="flex items-center justify-between">
@@ -272,11 +277,10 @@ export default function ProviderProfilePage() {
                           </p>
                         </div>
                         <span
-                          className={`px-3 py-1 rounded-full text-sm ${
-                            slot.available
+                          className={`px-3 py-1 rounded-full text-sm ${slot.available
                               ? "bg-[#10B981]/10 text-[#10B981]"
                               : "bg-[#F87171]/10 text-[#F87171]"
-                          }`}
+                            }`}
                         >
                           {slot.available ? "Свободен" : "Занят"}
                         </span>
@@ -292,7 +296,7 @@ export default function ProviderProfilePage() {
         {/* Booking Modal */}
         {showBooking && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-6 z-50">
-            <div className="bg-white dark:bg-[#1E1E1E] rounded-3xl p-8 max-w-[500px] w-full">
+            <div className="bg-white dark:bg-[#1E1E1E] rounded-3xl p-6 md:p-8 max-w-[500px] w-full">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-2xl font-semibold text-[#0D0D0D] dark:text-white">
                   Запись на услугу
@@ -335,11 +339,10 @@ export default function ProviderProfilePage() {
                           <button
                             key={index}
                             onClick={() => handleSlotSelect(slot)}
-                            className={`p-3 rounded-xl border text-sm transition-colors ${
-                              selectedSlot === slot
+                            className={`p-3 rounded-xl border text-sm transition-colors ${selectedSlot === slot
                                 ? "border-[#FF6B9D] bg-[#FF6B9D] text-white"
                                 : "border-[#E0E0E0] dark:border-[#404040] text-[#0D0D0D] dark:text-white hover:border-[#FF6B9D]"
-                            }`}
+                              }`}
                           >
                             {slot.date} в {slot.time}
                           </button>
@@ -357,11 +360,10 @@ export default function ProviderProfilePage() {
                     <button
                       onClick={handleBooking}
                       disabled={!selectedSlot}
-                      className={`flex-1 px-4 py-3 rounded-2xl text-white transition-colors ${
-                        selectedSlot
+                      className={`flex-1 px-4 py-3 rounded-2xl text-white transition-colors ${selectedSlot
                           ? "bg-[#FF6B9D] hover:bg-[#F55C91]"
                           : "bg-[#C0C0C0] cursor-not-allowed"
-                      }`}
+                        }`}
                     >
                       Записаться
                     </button>

@@ -160,7 +160,7 @@ export default function ProviderSetupPage() {
   };
 
   const renderStep1 = () => (
-    <div className="space-y-8">
+    <div className="space-y-2 md:space-y-8">
       <div className="text-center mb-8">
         <div className="w-16 h-16 bg-gradient-to-br from-[#8B70F6] to-[#9D7DFF] rounded-2xl flex items-center justify-center mb-4 mx-auto">
           <User size={28} className="text-white" strokeWidth={1.5} />
@@ -264,7 +264,7 @@ export default function ProviderSetupPage() {
           )}
 
           {/* Add custom tag */}
-          <div className="flex gap-2 mb-3">
+          <div className="flex gap-2 mb-3 flex-wrap">
             <input
               type="text"
               value={newTag}
@@ -316,7 +316,7 @@ export default function ProviderSetupPage() {
 
       <div className="space-y-6">
         {/* Add Category */}
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-wrap">
           <input
             type="text"
             value={newCategory}
@@ -379,7 +379,7 @@ export default function ProviderSetupPage() {
   );
 
   const renderStep3 = () => (
-    <div className="space-y-8">
+    <div className="space-y-4 md:space-y-8">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-semibold text-[#0D0D0D] dark:text-white mb-3">
           Настройка услуг
@@ -505,14 +505,13 @@ export default function ProviderSetupPage() {
                 !newService.price ||
                 !newService.duration
               }
-              className={`w-full px-4 py-2 rounded-xl text-white transition-colors ${
-                selectedCategoryForService &&
-                newService.name &&
-                newService.price &&
-                newService.duration
+              className={`w-full px-4 py-2 rounded-xl text-white transition-colors ${selectedCategoryForService &&
+                  newService.name &&
+                  newService.price &&
+                  newService.duration
                   ? "bg-[#8B70F6] hover:bg-[#7E64F2]"
                   : "bg-[#C0C0C0] dark:bg-[#404040] cursor-not-allowed"
-              }`}
+                }`}
             >
               Добавить услугу
             </button>
@@ -648,11 +647,10 @@ export default function ProviderSetupPage() {
           <button
             onClick={handleAddSlot}
             disabled={!newSlot.date || !newSlot.time}
-            className={`w-full px-4 py-2 rounded-xl text-white transition-colors ${
-              newSlot.date && newSlot.time
+            className={`w-full px-4 py-2 rounded-xl text-white transition-colors ${newSlot.date && newSlot.time
                 ? "bg-[#8B70F6] hover:bg-[#7E64F2]"
                 : "bg-[#C0C0C0] dark:bg-[#404040] cursor-not-allowed"
-            }`}
+              }`}
           >
             Добавить слот
           </button>
@@ -782,13 +780,19 @@ export default function ProviderSetupPage() {
             </button>
 
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-[#8B70F6] to-[#9D7DFF] rounded-xl"></div>
+              {/* <div className="w-8 h-8 bg-gradient-to-br from-[#8B70F6] to-[#9D7DFF] rounded-xl"></div>
               <span className="text-[#0D0D0D] dark:text-white text-xl font-medium">
                 ServiceHub
-              </span>
+              </span> */}
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 211 41" width="211" height="41">
+                <path fill="#FF6F3C" d="M194.8,40.4h-61.7c-2.1,0-3.4-1.8-2.8-4l9.2-32.5c0.5-1.8,2.4-3.3,4.2-3.3h61.7c2.1,0,3.4,1.8,2.8,4l-9.2,32.5c-0.5,1.8-2.4,3.3-4.2,3.3Z" />
+                <path fill="#FF6F3C" d="M11.6,16.7l-0.6,1.9h10.2l-2,7.4-3.7,2.6H0l1.3-4.4h10.2l0.6-2H1.9l2-7.3,3.7-2.7h15.4l-1.2,4.4h-10.2ZM20.6,28.6l4.7-16.3h17.3l-1.3,4.4h-9.2l-0.6,1.9h9.2l-1.1,3.6h-9.2l-0.6,1.9h9.2l-1.2,4.4h-17.4ZM39.6,28.6l4.7-16.3h19.2l-2,6.9-4.3,1.6,3.4,1.3-1.9,6.6h-8.5l1.3-4.4h-2l-1.3,4.4h-8.7ZM53.2,18.7l0.6-1.9h-1.9l-0.6,1.9h2ZM65.1,12.4h8.5l-2.8,10h2l2.8-10h8.5l-2.8,10-8.6,6.3h-5.2l-5.1-6.3,2.8-10ZM93.9,12.4l-4.7,16.3h-8.1l4.7-16.3h8.1ZM91,28.6l4.7-16.3h18.6l-2,7.1h-8.5l0.8-2.7h-2l-2.2,7.6h1.9l0.8-2.9h8.5l-1.3,4.7-3.7,2.6h-15.7ZM111.2,28.6l4.7-16.3h17.3l-1.3,4.4h-9.2l-0.6,1.9h9.2l-1.1,3.6h-9.2l-0.6,1.9h9.2l-1.2,4.4h-17.4Z" />
+
+                <path fill="#1A1A1A" d="M141.2,12.4h8.5l-1.8,6.3h2l1.7-6.3h8.5l-4.7,16.3h-8.5l1.7-6.3h-1.9l-1.7,6.3h-8.5l4.7-16.3ZM157.2,28.6l4.7-16.3h8.6l-3.4,11.9h1.9l3.4-11.9h8.6l-3.9,13.7-3.7,2.6h-16.3ZM178.1,28.6l4.7-16.3h19.4l-2,6.9-3,1.3,2.5,0.7-1.4,4.7-3.7,2.6h-16.5ZM190.5,22.3h-1.9l-0.6,1.9h2l0.6-1.9ZM190.2,16.7l-0.6,1.9h2l0.6-1.9h-2Z" />
+              </svg>
             </div>
 
-            <div className="w-20"> {/* Spacer for centering */}</div>
+
           </div>
         </header>
 
@@ -815,7 +819,7 @@ export default function ProviderSetupPage() {
         {/* Main Content */}
         <main className="px-6 pb-12">
           <div className="max-w-[800px] mx-auto">
-            <div className="bg-white dark:bg-[#1E1E1E] rounded-3xl p-8 md:p-12 shadow-lg">
+            <div className="bg-white dark:bg-[#1E1E1E] rounded-3xl p-6 md:p-8 shadow-lg">
               {renderCurrentStep()}
 
               {/* Navigation */}
@@ -830,11 +834,10 @@ export default function ProviderSetupPage() {
                 <button
                   onClick={handleNext}
                   disabled={!isStepValid()}
-                  className={`px-6 py-3 rounded-2xl text-white transition-colors ${
-                    isStepValid()
+                  className={`px-6 py-3 rounded-2xl text-white transition-colors ${isStepValid()
                       ? "bg-gradient-to-r from-[#8B70F6] to-[#9D7DFF] hover:from-[#7E64F2] hover:to-[#8B70F6]"
                       : "bg-[#C0C0C0] dark:bg-[#404040] cursor-not-allowed"
-                  }`}
+                    }`}
                 >
                   {currentStep === totalSteps ? "Завершить" : "Далее"}
                 </button>

@@ -17,7 +17,7 @@ export default function ProviderCard({
         onClick={onClick}
       >
         {/* Avatar */}
-        <div className="flex items-start gap-6">
+        <div className="flex items-start flex-col md:flex-row gap-6">
           <img
             src={avatar}
             alt={name}
