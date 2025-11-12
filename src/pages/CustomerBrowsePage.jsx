@@ -1,5 +1,5 @@
 // Поиск мастеров
-
+// TODO: разбить на компоненты (компоненты уже есть )
 import { useState } from "react";
 import {
   Search,
