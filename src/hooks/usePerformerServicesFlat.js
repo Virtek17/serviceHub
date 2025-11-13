@@ -1,11 +1,37 @@
 // src/hooks/usePerformerServicesFlat.js
 import { useEffect, useState, useCallback } from "react";
-import { fetchPerformerServicesFlat, updateService } from "../Api/services";
+import {
+  fetchPerformerServicesFlat,
+  updateService,
+  createService,
+} from "../Api/services";
+import { supabase } from "../lib/createClient";
 
 export function usePerformerServicesFlat(performerId) {
   const [services, setServices] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // Загрузка категорий
+  useEffect(() => {
+    if (!performerId) return;
+    let cancelled = false;
+
+    supabase
+      .from("service_categories")
+      .select("id, name")
+      .eq("performer_id", performerId)
+      .then(({ data, error: catError }) => {
+        if (!cancelled && !catError) {
+          setCategories(data || []);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [performerId]);
 
   // Загрузка всех услуг
   useEffect(() => {
@@ -54,5 +80,20 @@ export function usePerformerServicesFlat(performerId) {
     }
   }, []);
 
-  return { services, loading, error, editService };
+  // Функция добавления услуги
+  const addService = useCallback(async (serviceData) => {
+    try {
+      const newService = await createService(serviceData);
+
+      // Добавляем в локальное состояние
+      setServices((prev) => [...prev, newService]);
+
+      return newService;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    }
+  }, []);
+
+  return { services, categories, loading, error, editService, addService };
 }

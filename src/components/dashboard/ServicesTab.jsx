@@ -1,7 +1,12 @@
 import { Plus } from "lucide-react";
 import ServiceCard from "./ServiceCard";
 
-export default function ServicesTab({ services, onAddService, onEditService }) {
+export default function ServicesTab({
+  services,
+  onAddService,
+  onEditService,
+  onDeleteService,
+}) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -19,7 +24,12 @@ export default function ServicesTab({ services, onAddService, onEditService }) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {services.map((service, index) => (
-          <ServiceCard key={index} service={service} onEdit={onEditService} />
+          <ServiceCard
+            key={index}
+            service={service}
+            onEdit={onEditService}
+            onDelete={onDeleteService}
+          />
         ))}
       </div>
     </div>

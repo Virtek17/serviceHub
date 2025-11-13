@@ -64,3 +64,61 @@ export async function updateService(serviceId, updates) {
     throw new Error("Не удалось обновить услугу");
   }
 }
+
+export async function createService(serviceData) {
+  try {
+    const { data, error } = await supabase
+      .from("services")
+      .insert([
+        {
+          name: serviceData.name,
+          description: serviceData.description,
+          price: serviceData.price,
+          duration_minutes: serviceData.duration,
+          category_id: serviceData.category_id,
+        },
+      ])
+      .select(
+        `
+        id,
+        name,
+        description,
+        price,
+        duration_minutes,
+        category_id,
+        service_categories ( name )
+      `
+      )
+      .single();
+
+    if (error) throw error;
+
+    // Приводим к нужной структуре для твоего UI
+    return {
+      id: data.id,
+      name: data.name,
+      description: data.description,
+      price: Number(data.price),
+      duration: data.duration_minutes,
+      category: data.service_categories?.name || "Без категории",
+    };
+  } catch (err) {
+    console.error("[API] Ошибка создания услуги:", err);
+    throw new Error("Не удалось создать услугу");
+  }
+}
+
+export async function deleteService(serviceId) {
+  try {
+    const { error } = await supabase
+      .from("services")
+      .delete()
+      .eq("id", serviceId);
+
+    if (error) throw error;
+    return true;
+  } catch (err) {
+    console.error("[API] Ошибка удаления услуги:", err);
+    throw new Error("Не удалось удалить услугу");
+  }
+}

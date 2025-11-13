@@ -6,7 +6,9 @@ import OverviewTab from "../components/dashboard/OverviewTab";
 import ServicesTab from "../components/dashboard/ServicesTab";
 import EmptyState from "../components/common/EmptyState";
 import EditServiceModal from "../components/modals/EditServiceModal";
+import AddServiceModal from "../components/modals/AddServiceModal";
 import { usePerformerServicesFlat } from "../hooks/usePerformerServicesFlat";
+import { useDeleteService } from "../hooks/useDeleteService";
 
 export default function ProviderDashboardPage() {
   // TODO: получать id текущего пользователя (себя)
@@ -15,9 +17,12 @@ export default function ProviderDashboardPage() {
   const [activeTab, setActiveTab] = useState("overview");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [editingService, setEditingService] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  const { services, loading, error, editService } =
+  const { removeService } = useDeleteService();
+
+  const { services, categories, loading, editService, addService } =
     usePerformerServicesFlat(id);
   // TODO: делать расчёт из БД
   const stats = {
@@ -146,6 +151,12 @@ export default function ProviderDashboardPage() {
     setEditingService(service);
   };
 
+  const handleDeleteService = async (id) => {
+    await removeService(id);
+    const index = services.findIndex((s) => s.id === id);
+    if (index !== -1) services.splice(index, 1);
+  };
+
   const handleSaveService = async (formData) => {
     if (!editingService) return;
 
@@ -160,6 +171,26 @@ export default function ProviderDashboardPage() {
 
       setEditingService(null);
       alert("✅ Услуга успешно обновлена!");
+    } catch (err) {
+      alert("❌ Ошибка: " + err.message);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleAddService = async (formData) => {
+    setIsSaving(true);
+    try {
+      await addService({
+        name: formData.name,
+        description: formData.description,
+        price: Number(formData.price),
+        duration: Number(formData.duration),
+        category_id: Number(formData.category_id),
+      });
+
+      setShowAddModal(false);
+      alert("✅ Услуга успешно добавлена!");
     } catch (err) {
       alert("❌ Ошибка: " + err.message);
     } finally {
@@ -185,8 +216,9 @@ export default function ProviderDashboardPage() {
         return (
           <ServicesTab
             services={services}
-            onAddService={() => alert("Добавить услугу")}
+            onAddService={() => setShowAddModal(true)}
             onEditService={handleEditService}
+            onDeleteService={handleDeleteService}
           />
         );
 
@@ -243,6 +275,14 @@ export default function ProviderDashboardPage() {
         service={editingService}
         onSave={handleSaveService}
         isLoading={isSaving}
+      />
+
+      <AddServiceModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSave={handleAddService}
+        isLoading={isSaving}
+        categories={categories}
       />
     </div>
   );
