@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Calendar, BarChart3, Settings, TrendingUp, Plus } from "lucide-react";
+import { Calendar, BarChart3, Settings, TrendingUp } from "lucide-react";
 import PageHeader from "../components/common/PageHeader";
 import DashboardSidebar from "../components/dashboard/DashboardSidebar";
 import OverviewTab from "../components/dashboard/OverviewTab";
@@ -9,6 +9,8 @@ import EditServiceModal from "../components/modals/EditServiceModal";
 import AddServiceModal from "../components/modals/AddServiceModal";
 import { usePerformerServicesFlat } from "../hooks/usePerformerServicesFlat";
 import { useDeleteService } from "../hooks/useDeleteService";
+import CalendarTab from "../components/calendar/CalendarTab";
+import { useTimeSlots } from "../hooks/useTimeSlots";
 
 export default function ProviderDashboardPage() {
   // TODO: получать id текущего пользователя (себя)
@@ -82,33 +84,13 @@ export default function ProviderDashboardPage() {
     },
   ];
 
-  // TODO: тянуть записи из БД
-  // const services = [
-  //   {
-  //     category: "Маникюр",
-  //     name: "Классический маникюр",
-  //     price: 1200,
-  //     duration: 60,
-  //   },
-  //   {
-  //     category: "Маникюр",
-  //     name: "Наращивание ногтей",
-  //     price: 2500,
-  //     duration: 120,
-  //   },
-  //   {
-  //     category: "Педикюр",
-  //     name: "Классический педикюр",
-  //     price: 1500,
-  //     duration: 90,
-  //   },
-  //   {
-  //     category: "Педикюр",
-  //     name: "Педикюр с покрытием",
-  //     price: 1800,
-  //     duration: 120,
-  //   },
-  // ];
+  const {
+    slots,
+    loading: slotsLoading,
+    addSlot,
+    editSlot,
+    removeSlot,
+  } = useTimeSlots(id);
 
   const tabs = [
     { id: "overview", label: "Обзор", icon: BarChart3 },
@@ -117,22 +99,84 @@ export default function ProviderDashboardPage() {
     { id: "analytics", label: "Аналитика", icon: TrendingUp },
   ];
 
+  // Функции управления слотами
+  const handleAddSlot = async (formData) => {
+    try {
+      // Формируем timestamp без конвертации в UTC (локальное время)
+      const startTime = `${formData.date}T${formData.time}:00`;
+
+      // Вычисляем время окончания
+      const [datePart, timePart] = startTime.split("T");
+      const [hours, minutes] = timePart.split(":").map(Number);
+
+      const totalMinutes = hours * 60 + minutes + formData.duration;
+      const endHours = Math.floor(totalMinutes / 60);
+      const endMinutes = totalMinutes % 60;
+
+      const endTime = `${datePart}T${String(endHours).padStart(
+        2,
+        "0"
+      )}:${String(endMinutes).padStart(2, "0")}:00`;
+
+      await addSlot({
+        performer_id: id,
+        start_time: startTime,
+        end_time: endTime,
+      });
+
+      alert("✅ Слот успешно добавлен!");
+    } catch (err) {
+      console.error("Ошибка добавления слота:", err);
+      alert("❌ Ошибка: " + err.message);
+    }
+  };
+
+  const handleEditSlot = async (slotId, formData) => {
+    try {
+      // Формируем timestamp без конвертации в UTC (локальное время)
+      const startTime = `${formData.date}T${formData.time}:00`;
+
+      // Вычисляем время окончания
+      const [datePart, timePart] = startTime.split("T");
+      const [hours, minutes] = timePart.split(":").map(Number);
+
+      const totalMinutes = hours * 60 + minutes + formData.duration;
+      const endHours = Math.floor(totalMinutes / 60);
+      const endMinutes = totalMinutes % 60;
+
+      const endTime = `${datePart}T${String(endHours).padStart(
+        2,
+        "0"
+      )}:${String(endMinutes).padStart(2, "0")}:00`;
+
+      await editSlot(slotId, {
+        start_time: startTime,
+        end_time: endTime,
+      });
+
+      alert("✅ Слот успешно обновлён!");
+    } catch (err) {
+      console.error("Ошибка обновления слота:", err);
+      alert("❌ Ошибка: " + err.message);
+    }
+  };
+
+  const handleDeleteSlot = async (slotId) => {
+    try {
+      await removeSlot(slotId);
+      alert("✅ Слот успешно удалён!");
+    } catch (err) {
+      alert("❌ Ошибка: " + err.message);
+    }
+  };
+
   const renderCalendar = () => (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold text-[#0D0D0D] dark:text-white">
-          Расписание
-        </h2>
-        <button className="px-4 py-2 bg-[#FF6B9D] text-white rounded-xl hover:bg-[#F55C91] transition-colors flex items-center gap-2">
-          <Plus size={20} />
-          Добавить слот
-        </button>
-      </div>
-      <EmptyState
-        icon={Calendar}
-        title="Календарь будет доступен после настройки базы данных"
-      />
-    </div>
+    <CalendarTab
+      slots={slots}
+      onAddSlot={handleAddSlot}
+      onEditSlot={handleEditSlot}
+      onDeleteSlot={handleDeleteSlot}
+    />
   );
 
   const renderAnalytics = () => (
