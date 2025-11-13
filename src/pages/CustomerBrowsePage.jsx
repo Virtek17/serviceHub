@@ -1,20 +1,10 @@
-// Поиск мастеров
-// TODO: разбить на компоненты (компоненты уже есть )
-import { useEffect, useState } from "react";
-import {
-  Search,
-  MapPin,
-  Filter,
-  Star,
-  Clock,
-  DollarSign,
-  ArrowLeft,
-  Eye,
-  Tag,
-} from "lucide-react";
+import { useState } from "react";
+import { Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ProviderCard from "../components/providers/ProviderCard";
-
+import FilterSidebar from "../components/filters/FilterSidebar";
+import PageHeader from "../components/common/PageHeader";
+import EmptyState from "../components/common/EmptyState";
 import { useProviders } from "../hooks/userProviders";
 
 export default function CustomerBrowsePage() {
@@ -24,7 +14,6 @@ export default function CustomerBrowsePage() {
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
-  const [showFilters, setShowFilters] = useState(false);
 
   // 🆕 Загрузка данных при монтировании
   // useEffect(() => {
@@ -202,6 +191,13 @@ export default function CustomerBrowsePage() {
     );
   };
 
+  const handleResetFilters = () => {
+    setSearchTerm("");
+    setSelectedCity("");
+    setSelectedCategory("");
+    setSelectedTags([]);
+  };
+
   const filteredProviders = providers.filter((provider) => {
     const matchesSearch =
       provider.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -223,224 +219,71 @@ export default function CustomerBrowsePage() {
   const navigate = useNavigate();
 
   return (
-    <>
-      <div className="min-h-screen bg-gradient-to-br from-[#F8F6F3] to-[#ECE9E5] dark:from-[#1A1A1A] dark:to-[#0F0F0F]">
-        {/* Header */}
-        <header className="px-4 py-4 md:px-6 md:py-6 border-b border-[#E0E0E0] dark:border-[#404040] bg-white/50 dark:bg-[#1E1E1E]/50 backdrop-blur-sm">
-          <div className="max-w-[1200px] mx-auto flex flex-wrap items-center justify-between gap-3">
-            {/* Левая часть */}
-            <div className="flex items-center space-x-4 md:space-x-6">
-              <button
-                onClick={() => navigate(`/`)}
-                className="flex items-center gap-1.5 md:gap-2 text-[#666666] dark:text-[#AAAAAA] hover:text-[#0D0D0D] dark:hover:text-white transition-colors text-sm md:text-base"
+    <div className="min-h-screen bg-gradient-to-br from-[#F8F6F3] to-[#ECE9E5] dark:from-[#1A1A1A] dark:to-[#0F0F0F]">
+      <PageHeader backTo="/" backLabel="На главную" />
+
+      <div className="flex flex-wrap">
+        <FilterSidebar
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          selectedCity={selectedCity}
+          onCityChange={setSelectedCity}
+          cities={cities}
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+          categories={categories}
+          selectedTags={selectedTags}
+          onTagToggle={handleTagToggle}
+          tags={tags}
+          onReset={handleResetFilters}
+        />
+
+        <main className="flex-1 p-6 md:p-8">
+          <div className="max-w-[800px]">
+            <div className="mb-8">
+              <h1
+                className="text-3xl font-semibold text-[#0D0D0D] dark:text-white mb-3"
+                style={{ fontFamily: "Instrument Serif, serif" }}
               >
-                <ArrowLeft size={18} className="md:size-10" />
-                <span className="hidden sm:inline">На главную</span>
-              </button>
+                Найти мастера
+              </h1>
+              <p className="text-[#666666] dark:text-[#AAAAAA]">
+                Выберите подходящего специалиста для ваших потребностей
+              </p>
+              <p className="text-sm text-[#666666] dark:text-[#AAAAAA] mt-2">
+                Найдено мастеров: {filteredProviders.length}
+              </p>
+            </div>
 
-              <div className="flex items-center space-x-2 md:space-x-3">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 211 41"
-                  width="211"
-                  height="41"
-                >
-                  <path
-                    fill="#FF6F3C"
-                    d="M194.8,40.4h-61.7c-2.1,0-3.4-1.8-2.8-4l9.2-32.5c0.5-1.8,2.4-3.3,4.2-3.3h61.7c2.1,0,3.4,1.8,2.8,4l-9.2,32.5c-0.5,1.8-2.4,3.3-4.2,3.3Z"
+            {filteredProviders.length === 0 ? (
+              <EmptyState
+                icon={Search}
+                title="По вашему запросу ничего не найдено"
+                description="Попробуйте изменить параметры поиска"
+              />
+            ) : (
+              <div className="flex flex-col gap-6">
+                {filteredProviders.map((provider) => (
+                  <ProviderCard
+                    name={provider.name}
+                    avatar={provider.avatar}
+                    description={provider.description}
+                    city={provider.city}
+                    categories={provider.categories}
+                    tags={provider.tags}
+                    priceFrom={provider.priceFrom}
+                    key={provider.id}
+                    onClick={() =>
+                      navigate(`/customer/provider/${provider.id}`)
+                    }
                   />
-                  <path
-                    fill="#FF6F3C"
-                    d="M11.6,16.7l-0.6,1.9h10.2l-2,7.4-3.7,2.6H0l1.3-4.4h10.2l0.6-2H1.9l2-7.3,3.7-2.7h15.4l-1.2,4.4h-10.2ZM20.6,28.6l4.7-16.3h17.3l-1.3,4.4h-9.2l-0.6,1.9h9.2l-1.1,3.6h-9.2l-0.6,1.9h9.2l-1.2,4.4h-17.4ZM39.6,28.6l4.7-16.3h19.2l-2,6.9-4.3,1.6,3.4,1.3-1.9,6.6h-8.5l1.3-4.4h-2l-1.3,4.4h-8.7ZM53.2,18.7l0.6-1.9h-1.9l-0.6,1.9h2ZM65.1,12.4h8.5l-2.8,10h2l2.8-10h8.5l-2.8,10-8.6,6.3h-5.2l-5.1-6.3,2.8-10ZM93.9,12.4l-4.7,16.3h-8.1l4.7-16.3h8.1ZM91,28.6l4.7-16.3h18.6l-2,7.1h-8.5l0.8-2.7h-2l-2.2,7.6h1.9l0.8-2.9h8.5l-1.3,4.7-3.7,2.6h-15.7ZM111.2,28.6l4.7-16.3h17.3l-1.3,4.4h-9.2l-0.6,1.9h9.2l-1.1,3.6h-9.2l-0.6,1.9h9.2l-1.2,4.4h-17.4Z"
-                  />
-
-                  <path
-                    fill="#1A1A1A"
-                    d="M141.2,12.4h8.5l-1.8,6.3h2l1.7-6.3h8.5l-4.7,16.3h-8.5l1.7-6.3h-1.9l-1.7,6.3h-8.5l4.7-16.3ZM157.2,28.6l4.7-16.3h8.6l-3.4,11.9h1.9l3.4-11.9h8.6l-3.9,13.7-3.7,2.6h-16.3ZM178.1,28.6l4.7-16.3h19.4l-2,6.9-3,1.3,2.5,0.7-1.4,4.7-3.7,2.6h-16.5ZM190.5,22.3h-1.9l-0.6,1.9h2l0.6-1.9ZM190.2,16.7l-0.6,1.9h2l0.6-1.9h-2Z"
-                  />
-                </svg>
+                ))}
               </div>
-            </div>
-
-            {/* Правая часть */}
-            <div className="text-xs md:text-sm text-[#666666] dark:text-[#AAAAAA] whitespace-nowrap">
-              Найдено мастеров: {filteredProviders.length}
-            </div>
+            )}
           </div>
-        </header>
-
-        <div className="flex flex-wrap">
-          {/* Sidebar - Filters */}
-          <aside className="w-full md:w-80 bg-white dark:bg-[#1E1E1E] border-r border-[#E0E0E0] dark:border-[#404040] min-h-[calc(100vh-88px)] flex flex-col">
-            <div className="p-6 flex flex-col flex-1">
-              {/* Заголовок фильтров */}
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold text-[#0D0D0D] dark:text-white">
-                  Фильтры
-                </h2>
-                <button
-                  onClick={() => {
-                    setSearchTerm("");
-                    setSelectedCity("");
-                    setSelectedCategory("");
-                    setSelectedTags([]);
-                  }}
-                  className="text-sm text-[#8B70F6] hover:text-[#7E64F2]"
-                >
-                  Сбросить
-                </button>
-              </div>
-
-              {/* Контент фильтров */}
-              <div className="flex flex-col flex-1 space-y-6 overflow-hidden">
-                {/* Search */}
-                <div>
-                  <label className="block text-sm font-medium text-[#0D0D0D] dark:text-white mb-2">
-                    Поиск
-                  </label>
-                  <div className="relative">
-                    <Search
-                      size={20}
-                      className="absolute left-3 top-3 text-[#666666] dark:text-[#AAAAAA]"
-                    />
-                    <input
-                      type="text"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B9D] focus:border-transparent"
-                      placeholder="Поиск по имени или описанию"
-                    />
-                  </div>
-                </div>
-
-                {/* City */}
-                <div>
-                  <label className="block text-sm font-medium text-[#0D0D0D] dark:text-white mb-2">
-                    Город
-                  </label>
-                  <select
-                    value={selectedCity}
-                    onChange={(e) => setSelectedCity(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B9D] focus:border-transparent"
-                  >
-                    <option value="">Все города</option>
-                    {cities.map((city) => (
-                      <option key={city} value={city}>
-                        {city}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Category */}
-                <div>
-                  <label className="block text-sm font-medium text-[#0D0D0D] dark:text-white mb-2">
-                    Категория
-                  </label>
-                  <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B9D] focus:border-transparent"
-                  >
-                    <option value="">Все категории</option>
-                    {categories.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Tags */}
-                <div className="flex flex-col overflow-hidden">
-                  <label className="block text-sm font-medium text-[#0D0D0D] dark:text-white mb-2">
-                    Теги услуг
-                  </label>
-
-                  {/* Выбранные теги */}
-                  {selectedTags.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-2">
-                      {selectedTags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[#FF6B9D] text-white cursor-pointer"
-                          onClick={() => handleTagToggle(tag)}
-                        >
-                          {tag}
-                          <span className="ml-1 text-sm">×</span>
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Доступные теги */}
-                  <div className="flex flex-wrap gap-2 overflow-y-auto md:overflow-visible">
-                    {tags
-                      .filter((tag) => !selectedTags.includes(tag))
-                      .map((tag) => (
-                        <button
-                          key={tag}
-                          onClick={() => handleTagToggle(tag)}
-                          className="px-3 py-1 rounded-full text-sm border border-[#E0E0E0] dark:border-[#404040] text-[#666666] dark:text-[#AAAAAA] hover:border-[#FF6B9D] hover:text-[#FF6B9D] transition-colors"
-                        >
-                          {tag}
-                        </button>
-                      ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </aside>
-
-          {/* Main Content */}
-          <main className="flex-1 p-6 md:p-8">
-            <div className="max-w-[800px]">
-              {/* Results Header */}
-              <div className="mb-8">
-                <h1
-                  className="text-3xl font-semibold text-[#0D0D0D] dark:text-white mb-3"
-                  style={{ fontFamily: "Instrument Serif, serif" }}
-                >
-                  Найти мастера
-                </h1>
-                <p className="text-[#666666] dark:text-[#AAAAAA]">
-                  Выберите подходящего специалиста для ваших потребностей
-                </p>
-              </div>
-
-              {/* Provider Cards */}
-              {filteredProviders.length === 0 ? (
-                <div className="text-center py-12 text-[#666666] dark:text-[#AAAAAA]">
-                  <Search size={48} className="mx-auto mb-4 opacity-50" />
-                  <p>По вашему запросу ничего не найдено</p>
-                  <p className="text-sm mt-2">
-                    Попробуйте изменить параметры поиска
-                  </p>
-                </div>
-              ) : (
-                <div className="flex flex-col gap-6">
-                  {filteredProviders.map((provider) => (
-                    <ProviderCard
-                      name={provider.name}
-                      avatar={provider.avatar}
-                      description={provider.description}
-                      city={provider.city}
-                      categories={provider.categories}
-                      tags={provider.tags}
-                      priceFrom={provider.priceFrom}
-                      key={provider.id}
-                      onClick={() =>
-                        navigate(`/customer/provider/${provider.id}`)
-                      }
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-          </main>
-        </div>
+        </main>
       </div>
-    </>
+    </div>
   );
 }
 
