@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useProviderById } from "../hooks/useProviderById";
 import { createBooking } from "../Api/booking";
 import PageHeader from "../components/common/PageHeader";
@@ -10,7 +10,7 @@ import BookingModal from "../components/modals/BookingModal";
 
 export default function ProviderProfilePage() {
   const { id } = useParams();
-  const { provider, loading, error } = useProviderById(id);
+  const { provider, loading, error, refetch } = useProviderById(id);
 
   const customerId = "5ca0c69b-b333-4650-9b4d-aa1ab3d42749";
 
@@ -18,8 +18,6 @@ export default function ProviderProfilePage() {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [showBooking, setShowBooking] = useState(false);
   const [bookingLoading, setBookingLoading] = useState(false);
-
-  const navigate = useNavigate();
 
   const handleServiceSelect = (service) => {
     setSelectedService(service);
@@ -43,7 +41,11 @@ export default function ProviderProfilePage() {
         slot_id: selectedSlot.id,
       });
 
+      // Обновляем данные мастера, чтобы получить актуальные слоты
+      refetch();
+
       alert("✅ Вы успешно записаны!");
+
       setShowBooking(false);
       setSelectedService(null);
       setSelectedSlot(null);

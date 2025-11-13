@@ -5,11 +5,21 @@ import DashboardSidebar from "../components/dashboard/DashboardSidebar";
 import OverviewTab from "../components/dashboard/OverviewTab";
 import ServicesTab from "../components/dashboard/ServicesTab";
 import EmptyState from "../components/common/EmptyState";
+import EditServiceModal from "../components/modals/EditServiceModal";
+import { usePerformerServicesFlat } from "../hooks/usePerformerServicesFlat";
 
 export default function ProviderDashboardPage() {
+  // TODO: получать id текущего пользователя (себя)
+  const id = "a1b2c3d4-1234-5678-90ab-cdef12345678";
+
   const [activeTab, setActiveTab] = useState("overview");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [editingService, setEditingService] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
 
+  const { services, loading, error, editService } =
+    usePerformerServicesFlat(id);
+  // TODO: делать расчёт из БД
   const stats = {
     totalBookings: 124,
     monthlyRevenue: 45600,
@@ -17,6 +27,7 @@ export default function ProviderDashboardPage() {
     completedServices: 98,
   };
 
+  // TODO: тянуть записи из БД
   const recentBookings = [
     {
       id: 1,
@@ -47,6 +58,7 @@ export default function ProviderDashboardPage() {
     },
   ];
 
+  // TODO: тянуть записи из БД
   const upcomingSlots = [
     { date: "2024-11-12", time: "10:00", available: true },
     {
@@ -65,32 +77,33 @@ export default function ProviderDashboardPage() {
     },
   ];
 
-  const services = [
-    {
-      category: "Маникюр",
-      name: "Классический маникюр",
-      price: 1200,
-      duration: 60,
-    },
-    {
-      category: "Маникюр",
-      name: "Наращивание ногтей",
-      price: 2500,
-      duration: 120,
-    },
-    {
-      category: "Педикюр",
-      name: "Классический педикюр",
-      price: 1500,
-      duration: 90,
-    },
-    {
-      category: "Педикюр",
-      name: "Педикюр с покрытием",
-      price: 1800,
-      duration: 120,
-    },
-  ];
+  // TODO: тянуть записи из БД
+  // const services = [
+  //   {
+  //     category: "Маникюр",
+  //     name: "Классический маникюр",
+  //     price: 1200,
+  //     duration: 60,
+  //   },
+  //   {
+  //     category: "Маникюр",
+  //     name: "Наращивание ногтей",
+  //     price: 2500,
+  //     duration: 120,
+  //   },
+  //   {
+  //     category: "Педикюр",
+  //     name: "Классический педикюр",
+  //     price: 1500,
+  //     duration: 90,
+  //   },
+  //   {
+  //     category: "Педикюр",
+  //     name: "Педикюр с покрытием",
+  //     price: 1800,
+  //     duration: 120,
+  //   },
+  // ];
 
   const tabs = [
     { id: "overview", label: "Обзор", icon: BarChart3 },
@@ -129,6 +142,31 @@ export default function ProviderDashboardPage() {
     </div>
   );
 
+  const handleEditService = (service) => {
+    setEditingService(service);
+  };
+
+  const handleSaveService = async (formData) => {
+    if (!editingService) return;
+
+    setIsSaving(true);
+    try {
+      await editService(editingService.id, {
+        name: formData.name,
+        description: formData.description,
+        price: Number(formData.price),
+        duration: Number(formData.duration),
+      });
+
+      setEditingService(null);
+      alert("✅ Услуга успешно обновлена!");
+    } catch (err) {
+      alert("❌ Ошибка: " + err.message);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case "overview":
@@ -140,13 +178,18 @@ export default function ProviderDashboardPage() {
           />
         );
       case "services":
+        if (loading) {
+          return <div>Загрузка...</div>;
+        }
+
         return (
           <ServicesTab
             services={services}
             onAddService={() => alert("Добавить услугу")}
-            onEditService={(service) => alert(`Редактировать: ${service.name}`)}
+            onEditService={handleEditService}
           />
         );
+
       case "calendar":
         return renderCalendar();
       case "analytics":
@@ -193,6 +236,14 @@ export default function ProviderDashboardPage() {
           <div className="max-w-[1000px] mx-auto">{renderContent()}</div>
         </main>
       </div>
+
+      <EditServiceModal
+        isOpen={!!editingService}
+        onClose={() => setEditingService(null)}
+        service={editingService}
+        onSave={handleSaveService}
+        isLoading={isSaving}
+      />
     </div>
   );
 }
