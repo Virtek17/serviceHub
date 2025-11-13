@@ -15,81 +15,80 @@ import {
 import { useNavigate } from "react-router-dom";
 import ProviderCard from "../components/providers/ProviderCard";
 
-import { supabase } from "../lib/createClient";
+import { useProviders } from "../hooks/userProviders";
 
 export default function CustomerBrowsePage() {
+  const { providers, loading, error } = useProviders();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
 
-  const [providers, setProviders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
   // 🆕 Загрузка данных при монтировании
-  useEffect(() => {
-    const fetchProviders = async () => {
-      try {
-        setLoading(true);
+  // useEffect(() => {
+  //   const fetchProviders = async () => {
+  //     try {
+  //       setLoading(true);
 
-        // Получаем всех исполнителей с тегами и базовой инфой
-        const { data, error } = await supabase
-          .from("profiles")
-          .select(
-            `
-            id,
-            full_name,
-            city,
-            performer_profiles!inner(bio)
-          `
-          )
-          .order("full_name", { ascending: true });
+  //       // Получаем всех исполнителей с тегами и базовой инфой
+  //       const { data, error } = await supabase
+  //         .from("profiles")
+  //         .select(
+  //           `
+  //           id,
+  //           full_name,
+  //           city,
+  //           performer_profiles!inner(bio)
+  //           performer_tags!inner(tag)
+  //         `
+  //         )
+  //         .order("full_name", { ascending: true });
+  //       console.log("Данные из БД: ", data);
+  //       if (error) throw error;
 
-        if (error) throw error;
+  //       // Получаем теги для всех мастеров
+  //       const performerIds = data.map((p) => p.id);
+  //       const { data: tagsData } = await supabase
+  //         .from("performer_tags")
+  //         .select("performer_id, tag")
+  //         .in("performer_id", performerIds);
 
-        // Получаем теги для всех мастеров
-        const performerIds = data.map((p) => p.id);
-        const { data: tagsData } = await supabase
-          .from("performer_tags")
-          .select("performer_id, tag")
-          .in("performer_id", performerIds);
+  //       // Группируем теги по мастеру
+  //       const tagsByPerformer = {};
+  //       tagsData.forEach((t) => {
+  //         if (!tagsByPerformer[t.performer_id])
+  //           tagsByPerformer[t.performer_id] = [];
+  //         tagsByPerformer[t.performer_id].push(t.tag);
+  //       });
 
-        // Группируем теги по мастеру
-        const tagsByPerformer = {};
-        tagsData.forEach((t) => {
-          if (!tagsByPerformer[t.performer_id])
-            tagsByPerformer[t.performer_id] = [];
-          tagsByPerformer[t.performer_id].push(t.tag);
-        });
+  //       // Формируем данные в формате, совместимом с твоим UI
+  //       const formattedProviders = data.map((profile) => ({
+  //         id: profile.id, // UUID!
+  //         name: profile.full_name,
+  //         city: profile.city,
+  //         description:
+  //           profile.performer_profiles.bio || "Информация временно недоступна",
+  //         tags: tagsByPerformer[profile.id] || [],
+  //         rating: 4.8, // 🔜 позже можно добавить реальные отзывы
+  //         reviewCount: 0,
+  //         priceFrom: 1000, // 🔜 позже: MIN(services.price)
+  //         categories: [], // 🔜 пока пусто, но можно добавить
+  //         avatar: "https://placehold.co/150?text=👤", // 🔜 позже: фото из storage
+  //       }));
 
-        // Формируем данные в формате, совместимом с твоим UI
-        const formattedProviders = data.map((profile) => ({
-          id: profile.id, // UUID!
-          name: profile.full_name,
-          city: profile.city,
-          description:
-            profile.performer_profiles.bio || "Информация временно недоступна",
-          tags: tagsByPerformer[profile.id] || [],
-          rating: 4.8, // 🔜 позже можно добавить реальные отзывы
-          reviewCount: 0,
-          priceFrom: 1000, // 🔜 позже: MIN(services.price)
-          categories: [], // 🔜 пока пусто, но можно добавить
-          avatar: "https://placehold.co/150?text=👤", // 🔜 позже: фото из storage
-        }));
+  //       setProviders(formattedProviders);
+  //     } catch (err) {
+  //       console.error("Ошибка загрузки мастеров:", err);
+  //       setError("Не удалось загрузить список мастеров");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-        setProviders(formattedProviders);
-      } catch (err) {
-        console.error("Ошибка загрузки мастеров:", err);
-        setError("Не удалось загрузить список мастеров");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProviders();
-  }, []);
+  //   fetchProviders();
+  // }, []);
 
   // Mock data for demonstration
   const cities = [
@@ -205,14 +204,18 @@ export default function CustomerBrowsePage() {
 
   const filteredProviders = providers.filter((provider) => {
     const matchesSearch =
-      provider.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      provider.description.toLowerCase().includes(searchTerm.toLowerCase());
+      provider.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      provider.description?.toLowerCase().includes(searchTerm.toLowerCase());
+
     const matchesCity = !selectedCity || provider.city === selectedCity;
-    const matchesCategory =
-      !selectedCategory || provider.categories.includes(selectedCategory);
+
+    // Временно отключено — категории не загружаются из БД
+    const matchesCategory = true;
+
     const matchesTags =
       selectedTags.length === 0 ||
-      selectedTags.some((tag) => provider.tags.includes(tag));
+      (Array.isArray(provider.tags) &&
+        selectedTags.some((tag) => provider.tags.includes(tag)));
 
     return matchesSearch && matchesCity && matchesCategory && matchesTags;
   });
@@ -236,17 +239,26 @@ export default function CustomerBrowsePage() {
               </button>
 
               <div className="flex items-center space-x-2 md:space-x-3">
-                {/* <div className="w-7 h-7 md:w-8 md:h-8 bg-gradient-to-br from-[#8B70F6] to-[#9D7DFF] rounded-xl"></div>
-                <span className="text-[#0D0D0D] dark:text-white text-lg md:text-xl font-medium">
-                  ServiceHub
-                </span> */}
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 211 41" width="211" height="41">
-                  <path fill="#FF6F3C" d="M194.8,40.4h-61.7c-2.1,0-3.4-1.8-2.8-4l9.2-32.5c0.5-1.8,2.4-3.3,4.2-3.3h61.7c2.1,0,3.4,1.8,2.8,4l-9.2,32.5c-0.5,1.8-2.4,3.3-4.2,3.3Z" />
-                  <path fill="#FF6F3C" d="M11.6,16.7l-0.6,1.9h10.2l-2,7.4-3.7,2.6H0l1.3-4.4h10.2l0.6-2H1.9l2-7.3,3.7-2.7h15.4l-1.2,4.4h-10.2ZM20.6,28.6l4.7-16.3h17.3l-1.3,4.4h-9.2l-0.6,1.9h9.2l-1.1,3.6h-9.2l-0.6,1.9h9.2l-1.2,4.4h-17.4ZM39.6,28.6l4.7-16.3h19.2l-2,6.9-4.3,1.6,3.4,1.3-1.9,6.6h-8.5l1.3-4.4h-2l-1.3,4.4h-8.7ZM53.2,18.7l0.6-1.9h-1.9l-0.6,1.9h2ZM65.1,12.4h8.5l-2.8,10h2l2.8-10h8.5l-2.8,10-8.6,6.3h-5.2l-5.1-6.3,2.8-10ZM93.9,12.4l-4.7,16.3h-8.1l4.7-16.3h8.1ZM91,28.6l4.7-16.3h18.6l-2,7.1h-8.5l0.8-2.7h-2l-2.2,7.6h1.9l0.8-2.9h8.5l-1.3,4.7-3.7,2.6h-15.7ZM111.2,28.6l4.7-16.3h17.3l-1.3,4.4h-9.2l-0.6,1.9h9.2l-1.1,3.6h-9.2l-0.6,1.9h9.2l-1.2,4.4h-17.4Z" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 211 41"
+                  width="211"
+                  height="41"
+                >
+                  <path
+                    fill="#FF6F3C"
+                    d="M194.8,40.4h-61.7c-2.1,0-3.4-1.8-2.8-4l9.2-32.5c0.5-1.8,2.4-3.3,4.2-3.3h61.7c2.1,0,3.4,1.8,2.8,4l-9.2,32.5c-0.5,1.8-2.4,3.3-4.2,3.3Z"
+                  />
+                  <path
+                    fill="#FF6F3C"
+                    d="M11.6,16.7l-0.6,1.9h10.2l-2,7.4-3.7,2.6H0l1.3-4.4h10.2l0.6-2H1.9l2-7.3,3.7-2.7h15.4l-1.2,4.4h-10.2ZM20.6,28.6l4.7-16.3h17.3l-1.3,4.4h-9.2l-0.6,1.9h9.2l-1.1,3.6h-9.2l-0.6,1.9h9.2l-1.2,4.4h-17.4ZM39.6,28.6l4.7-16.3h19.2l-2,6.9-4.3,1.6,3.4,1.3-1.9,6.6h-8.5l1.3-4.4h-2l-1.3,4.4h-8.7ZM53.2,18.7l0.6-1.9h-1.9l-0.6,1.9h2ZM65.1,12.4h8.5l-2.8,10h2l2.8-10h8.5l-2.8,10-8.6,6.3h-5.2l-5.1-6.3,2.8-10ZM93.9,12.4l-4.7,16.3h-8.1l4.7-16.3h8.1ZM91,28.6l4.7-16.3h18.6l-2,7.1h-8.5l0.8-2.7h-2l-2.2,7.6h1.9l0.8-2.9h8.5l-1.3,4.7-3.7,2.6h-15.7ZM111.2,28.6l4.7-16.3h17.3l-1.3,4.4h-9.2l-0.6,1.9h9.2l-1.1,3.6h-9.2l-0.6,1.9h9.2l-1.2,4.4h-17.4Z"
+                  />
 
-                  <path fill="#1A1A1A" d="M141.2,12.4h8.5l-1.8,6.3h2l1.7-6.3h8.5l-4.7,16.3h-8.5l1.7-6.3h-1.9l-1.7,6.3h-8.5l4.7-16.3ZM157.2,28.6l4.7-16.3h8.6l-3.4,11.9h1.9l3.4-11.9h8.6l-3.9,13.7-3.7,2.6h-16.3ZM178.1,28.6l4.7-16.3h19.4l-2,6.9-3,1.3,2.5,0.7-1.4,4.7-3.7,2.6h-16.5ZM190.5,22.3h-1.9l-0.6,1.9h2l0.6-1.9ZM190.2,16.7l-0.6,1.9h2l0.6-1.9h-2Z" />
+                  <path
+                    fill="#1A1A1A"
+                    d="M141.2,12.4h8.5l-1.8,6.3h2l1.7-6.3h8.5l-4.7,16.3h-8.5l1.7-6.3h-1.9l-1.7,6.3h-8.5l4.7-16.3ZM157.2,28.6l4.7-16.3h8.6l-3.4,11.9h1.9l3.4-11.9h8.6l-3.9,13.7-3.7,2.6h-16.3ZM178.1,28.6l4.7-16.3h19.4l-2,6.9-3,1.3,2.5,0.7-1.4,4.7-3.7,2.6h-16.5ZM190.5,22.3h-1.9l-0.6,1.9h2l0.6-1.9ZM190.2,16.7l-0.6,1.9h2l0.6-1.9h-2Z"
+                  />
                 </svg>
-
               </div>
             </div>
 
@@ -416,7 +428,7 @@ export default function CustomerBrowsePage() {
                       categories={provider.categories}
                       tags={provider.tags}
                       priceFrom={provider.priceFrom}
-                      key={provider}
+                      key={provider.id}
                       onClick={() =>
                         navigate(`/customer/provider/${provider.id}`)
                       }
