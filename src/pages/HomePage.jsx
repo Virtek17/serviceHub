@@ -21,19 +21,32 @@ export default function HomePage() {
     const wa = window.WebApp;
     if (!wa) return;
 
-    // Сообщаем MAX, что приложение готово
     wa.ready();
 
-    // Подписка на событие WebAppReady
-    const onReady = () => {
+    // Попытка получить данные сразу
+    if (wa.initDataUnsafe?.user) {
       setData({
         version: wa.version,
         platform: wa.platform,
         initData: wa.initData,
         initDataUnsafe: wa.initDataUnsafe,
-        user: wa.initDataUnsafe?.user || null,
-        chat: wa.initDataUnsafe?.chat || null,
+        user: wa.initDataUnsafe.user,
+        chat: wa.initDataUnsafe.chat || null,
       });
+    }
+
+    // Подписка на WebAppReady на случай, если событие произойдет позже
+    const onReady = () => {
+      if (wa.initDataUnsafe?.user) {
+        setData({
+          version: wa.version,
+          platform: wa.platform,
+          initData: wa.initData,
+          initDataUnsafe: wa.initDataUnsafe,
+          user: wa.initDataUnsafe.user,
+          chat: wa.initDataUnsafe.chat || null,
+        });
+      }
     };
 
     wa.onEvent("WebAppReady", onReady);
@@ -104,7 +117,9 @@ export default function HomePage() {
                 <p>Данные ещё не загружены...</p>
               )}
             </div>
-            <button className="bg-[blue] p-4">получить данные</button>
+            <button className=" p-4" style={{ backgroundColor: "red" }}>
+              получить данные
+            </button>
             <p className="text-base sm:text-lg text-[#555555] dark:text-[#C0C0C0] opacity-80 mb-12 sm:mb-16 max-w-[50ch] mx-auto px-4">
               Выберите свою роль и начните работать с клиентами или находить
               нужные услуги
