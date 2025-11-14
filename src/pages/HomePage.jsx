@@ -99,8 +99,9 @@ export default function HomePage() {
             <h1
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight text-[#0D0D0D] dark:text-white mb-4 sm:mb-6 max-w-4xl mx-auto"
               style={{
-                fontFamily: "Instrument Serif, serif",
-                letterSpacing: "-0.02em",
+                fontFamily: "'Rubik 80s Fade', sans-serif",
+                fontWeight: "600",
+                letterSpacing: "0.02em",
               }}
             >
               {authLoading
@@ -147,13 +148,13 @@ export default function HomePage() {
               />
             </div>
 
-            {/* Additional Info */}
+            {/* Additional Info
             <div className="mt-12 sm:mt-16 p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-white/50 dark:bg-[#1E1E1E]/50 border border-[#E0E0E0] dark:border-[#404040] max-w-[600px] mx-auto">
               <p className="text-xs sm:text-sm text-[#666666] dark:text-[#AAAAAA]">
                 <strong>Примечание:</strong> Это демо-версия для ознакомления с
                 функционалом. Регистрация и авторизация временно отключены.
               </p>
-            </div>
+            </div> */}
           </div>
         </main>
       </div>

@@ -3,7 +3,7 @@ import { User, Store } from "lucide-react";
 const RoleCard = ({ role, title, description, features, handleRoleSelect }) => {
   return (
     <div
-      className="group relative p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#1E1E1E] hover:bg-[#FAFAFA] dark:hover:bg-[#262626] transition-all duration-200 cursor-pointer hover:border-[#8B70F6] dark:hover:border-[#9D7DFF] hover:shadow-lg"
+      className="group relative p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#1E1E1E] hover:bg-[#FAFAFA] dark:hover:bg-[#262626] transition-all duration-200 cursor-pointer hover:border-[#8B70F6] dark:hover:border-[#FF6F3C] hover:shadow-lg"
       onClick={handleRoleSelect}
     >
       {/* Icon */}

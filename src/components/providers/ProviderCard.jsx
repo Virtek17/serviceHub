@@ -16,7 +16,7 @@ export default function ProviderCard({
   return (
     <div className="space-y-6">
       <div
-        className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 border border-[#E0E0E0] dark:border-[#404040] hover:shadow-lg transition-all duration-200 cursor-pointer hover:border-[#FF6B9D] dark:hover:border-[#FF8FB3]"
+        className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 border border-[#E0E0E0] dark:border-[#404040] hover:shadow-lg transition-all duration-200 cursor-pointer hover:border-[#FF6F3C] dark:hover:border-[#9779FC]"
         onClick={onClick}
       >
         {/* Avatar */}
