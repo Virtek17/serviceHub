@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import ToastProvider from "./components/common/ToastProvider";
 
 import MainLayout from "./layouts/MainLayout";
 
@@ -27,6 +28,7 @@ function App() {
           <Route path="/provider/setup" element={<ProviderSetupPage />} />
         </Route>
       </Routes>
+      <ToastProvider />
     </AuthProvider>
   );
 }

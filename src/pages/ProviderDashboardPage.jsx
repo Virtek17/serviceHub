@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Calendar, BarChart3, Settings, TrendingUp } from "lucide-react";
+import { toast } from "react-toastify";
 import PageHeader from "../components/common/PageHeader";
 import DashboardSidebar from "../components/dashboard/DashboardSidebar";
 import OverviewTab from "../components/dashboard/OverviewTab";
@@ -142,10 +143,10 @@ export default function ProviderDashboardPage() {
 
       console.log("🔵 [3] Получили из API:", result);
 
-      alert("✅ Слот успешно добавлен!");
+      toast.success("Слот успешно добавлен!");
     } catch (err) {
       console.error("❌ Ошибка добавления слота:", err);
-      alert("❌ Ошибка: " + err.message);
+      toast.error(`Ошибка: ${err.message}`);
     }
   };
 
@@ -172,19 +173,19 @@ export default function ProviderDashboardPage() {
         end_time: endTime,
       });
 
-      alert("✅ Слот успешно обновлён!");
+      toast.success("Слот успешно обновлён!");
     } catch (err) {
       console.error("Ошибка обновления слота:", err);
-      alert("❌ Ошибка: " + err.message);
+      toast.error(`Ошибка: ${err.message}`);
     }
   };
 
   const handleDeleteSlot = async (slotId) => {
     try {
       await removeSlot(slotId);
-      alert("✅ Слот успешно удалён!");
+      toast.success("Слот успешно удалён!");
     } catch (err) {
-      alert("❌ Ошибка: " + err.message);
+      toast.error(`Ошибка: ${err.message}`);
     }
   };
 
@@ -232,9 +233,9 @@ export default function ProviderDashboardPage() {
       });
 
       setEditingService(null);
-      alert("✅ Услуга успешно обновлена!");
+      toast.success("Услуга успешно обновлена!");
     } catch (err) {
-      alert("❌ Ошибка: " + err.message);
+      toast.error(`Ошибка: ${err.message}`);
     } finally {
       setIsSaving(false);
     }
@@ -252,9 +253,9 @@ export default function ProviderDashboardPage() {
       });
 
       setShowAddModal(false);
-      alert("✅ Услуга успешно добавлена!");
+      toast.success("Услуга успешно добавлена!");
     } catch (err) {
-      alert("❌ Ошибка: " + err.message);
+      toast.error(`Ошибка: ${err.message}`);
     } finally {
       setIsSaving(false);
     }
@@ -269,9 +270,9 @@ export default function ProviderDashboardPage() {
       });
 
       setShowAddCategoryModal(false);
-      alert("✅ Категория успешно добавлена!");
+      toast.success("Категория успешно добавлена!");
     } catch (err) {
-      alert("❌ Ошибка: " + err.message);
+      toast.error(`Ошибка: ${err.message}`);
     } finally {
       setIsSaving(false);
     }
