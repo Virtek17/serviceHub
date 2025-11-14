@@ -11,27 +11,25 @@ export default function OverviewTab({ stats, recentBookings, upcomingSlots }) {
         <StatCard
           icon={Calendar}
           value={stats.totalBookings}
-          label="Записей всего"
-          trend="+12%"
+          label="Всего записей"
           gradient="from-[#8B70F6] to-[#9D7DFF]"
         />
         <StatCard
-          icon={DollarSign}
-          value={`${stats.monthlyRevenue.toLocaleString()} ₽`}
-          label="Выручка за месяц"
-          trend="+8%"
+          icon={Clock}
+          value={stats.monthlyBookings}
+          label="Записей за месяц"
           gradient="from-[#FF6B9D] to-[#FF8FB3]"
         />
         <StatCard
-          icon={Clock}
-          value={stats.upcomingAppointments}
-          label="Ближайшие записи"
+          icon={TrendingUp}
+          value={stats.activeServices}
+          label="Активных услуг"
           gradient="from-[#F59E0B] to-[#F97316]"
         />
         <StatCard
-          icon={TrendingUp}
-          value={stats.completedServices}
-          label="Услуг выполнено"
+          icon={DollarSign}
+          value={stats.availableSlots}
+          label="Свободных слотов"
           gradient="from-[#10B981] to-[#059669]"
         />
       </div>

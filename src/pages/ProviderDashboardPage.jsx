@@ -14,6 +14,7 @@ import { useDeleteService } from "../hooks/useDeleteService";
 import CalendarTab from "../components/calendar/CalendarTab";
 import { useTimeSlots } from "../hooks/useTimeSlots";
 import { useAuth } from "../hooks/useAuth";
+import { useOverviewStats } from "../hooks/useOverviewStats";
 
 export default function ProviderDashboardPage() {
   const { user, loading: authLoading } = useAuth();
@@ -36,63 +37,14 @@ export default function ProviderDashboardPage() {
     addService,
     addCategory,
   } = usePerformerServicesFlat(id);
-  // TODO: делать расчёт из БД
-  const stats = {
-    totalBookings: 124,
-    monthlyRevenue: 45600,
-    upcomingAppointments: 8,
-    completedServices: 98,
-  };
 
-  // TODO: тянуть записи из БД
-  const recentBookings = [
-    {
-      id: 1,
-      client: "Анна Иванова",
-      service: "Маникюр классический",
-      date: "2024-11-12",
-      time: "14:00",
-      price: 1200,
-      status: "upcoming",
-    },
-    {
-      id: 2,
-      client: "Мария Петрова",
-      service: "Педикюр с покрытием",
-      date: "2024-11-11",
-      time: "16:30",
-      price: 1800,
-      status: "completed",
-    },
-    {
-      id: 3,
-      client: "Елена Сидорова",
-      service: "Наращивание ногтей",
-      date: "2024-11-10",
-      time: "12:00",
-      price: 2500,
-      status: "completed",
-    },
-  ];
-
-  // TODO: тянуть записи из БД
-  const upcomingSlots = [
-    { date: "2024-11-12", time: "10:00", available: true },
-    {
-      date: "2024-11-12",
-      time: "14:00",
-      available: false,
-      client: "Анна Иванова",
-    },
-    { date: "2024-11-12", time: "16:00", available: true },
-    { date: "2024-11-13", time: "09:00", available: true },
-    {
-      date: "2024-11-13",
-      time: "11:00",
-      available: false,
-      client: "Ольга Козлова",
-    },
-  ];
+  // Загружаем реальную статистику из БД
+  const {
+    stats,
+    recentBookings,
+    upcomingSlots,
+    loading: statsLoading,
+  } = useOverviewStats(id);
 
   const {
     slots,
@@ -281,6 +233,15 @@ export default function ProviderDashboardPage() {
   const renderContent = () => {
     switch (activeTab) {
       case "overview":
+        if (statsLoading) {
+          return (
+            <div className="flex items-center justify-center py-12">
+              <p className="text-[#666666] dark:text-[#AAAAAA]">
+                Загрузка статистики...
+              </p>
+            </div>
+          );
+        }
         return (
           <OverviewTab
             stats={stats}
