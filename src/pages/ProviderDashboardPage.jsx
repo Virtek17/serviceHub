@@ -14,7 +14,7 @@ import { useTimeSlots } from "../hooks/useTimeSlots";
 
 export default function ProviderDashboardPage() {
   // TODO: получать id текущего пользователя (себя)
-  const id = "a1b2c3d4-1234-5678-90ab-cdef12345678";
+  const id = "123";
 
   const [activeTab, setActiveTab] = useState("overview");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
