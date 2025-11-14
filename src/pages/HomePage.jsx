@@ -18,6 +18,31 @@ export default function HomePage() {
     }
   };
 
+  const [data, setData] = useState();
+
+  const handleClick = () => {
+    const wa = window.WebApp;
+
+    if (!wa) {
+      setData("WebApp не найден. Приложение не запущено внутри MAX.");
+      return;
+    }
+
+    // Сообщаем MAX, что мини-приложение готово
+    if (wa.ready) wa.ready();
+
+    const result = {
+      version: wa.version,
+      platform: wa.platform,
+      initData: wa.initData,
+      initDataUnsafe: wa.initDataUnsafe,
+    };
+
+    console.log("WA Data: ", result);
+
+    setData(JSON.stringify(result, null, 2));
+  };
+
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-[#F8F6F3] to-[#ECE9E5] dark:from-[#1A1A1A] dark:to-[#0F0F0F]">
@@ -63,7 +88,9 @@ export default function HomePage() {
               Присоединяйтесь к <em className="font-medium">нашей</em> платформе
               услуг
             </h1>
-
+            <button className="bg-white p-4" onClick={handleClick}>
+              получить данные
+            </button>
             <p className="text-base sm:text-lg text-[#555555] dark:text-[#C0C0C0] opacity-80 mb-12 sm:mb-16 max-w-[50ch] mx-auto px-4">
               Выберите свою роль и начните работать с клиентами или находить
               нужные услуги
