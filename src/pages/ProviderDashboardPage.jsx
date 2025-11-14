@@ -102,6 +102,8 @@ export default function ProviderDashboardPage() {
   // Функции управления слотами
   const handleAddSlot = async (formData) => {
     try {
+      console.log("🔵 [1] Данные из формы:", formData);
+
       // Формируем timestamp без конвертации в UTC (локальное время)
       const startTime = `${formData.date}T${formData.time}:00`;
 
@@ -118,15 +120,22 @@ export default function ProviderDashboardPage() {
         "0"
       )}:${String(endMinutes).padStart(2, "0")}:00`;
 
-      await addSlot({
+      console.log("🔵 [2] Отправляем в API:", {
+        start_time: startTime,
+        end_time: endTime,
+      });
+
+      const result = await addSlot({
         performer_id: id,
         start_time: startTime,
         end_time: endTime,
       });
 
+      console.log("🔵 [3] Получили из API:", result);
+
       alert("✅ Слот успешно добавлен!");
     } catch (err) {
-      console.error("Ошибка добавления слота:", err);
+      console.error("❌ Ошибка добавления слота:", err);
       alert("❌ Ошибка: " + err.message);
     }
   };

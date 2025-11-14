@@ -15,8 +15,9 @@ export async function fetchSlots(performerId) {
     return data.map((slot) => ({
       id: slot.id,
       // Убираем временную зону из timestamp, чтобы JS парсил как локальное время
-      start: slot.start_time.replace(/\+\d{2}$/, "").replace(/\.\d{6}/, ""),
-      end: slot.end_time.replace(/\+\d{2}$/, "").replace(/\.\d{6}/, ""),
+
+      start: slot.start_time,
+      end: slot.end_time,
       available: slot.is_available,
     }));
   } catch (err) {
@@ -28,6 +29,11 @@ export async function fetchSlots(performerId) {
 // Создать слот
 export async function createSlot({ performer_id, start_time, end_time }) {
   try {
+    console.log("🟢 [API-1] Получили данные для создания:", {
+      start_time,
+      end_time,
+    });
+
     const { data, error } = await supabase
       .from("time_slots")
       .insert([
@@ -42,15 +48,26 @@ export async function createSlot({ performer_id, start_time, end_time }) {
 
     if (error) throw error;
 
-    return {
+    console.log("🟢 [API-2] Ответ от Supabase:", {
+      start_time: data.start_time,
+      end_time: data.end_time,
+    });
+
+    const result = {
       id: data.id,
       // Убираем временную зону из timestamp
-      start: data.start_time.replace(/\+\d{2}$/, "").replace(/\.\d{6}/, ""),
-      end: data.end_time.replace(/\+\d{2}$/, "").replace(/\.\d{6}/, ""),
+      // start: data.start_time.replace(/\+\d{2}$/, "").replace(/\.\d{6}/, ""),
+      // end: data.end_time.replace(/\+\d{2}$/, "").replace(/\.\d{6}/, ""),
+      start: data.start_time,
+      end: data.end_time,
       available: data.is_available,
     };
+
+    console.log("🟢 [API-3] Возвращаем после обработки:", result);
+
+    return result;
   } catch (err) {
-    console.error("[API] Ошибка создания слота:", err);
+    console.error("❌ [API] Ошибка создания слота:", err);
     throw new Error("Не удалось создать слот");
   }
 }
@@ -70,8 +87,10 @@ export async function updateSlot(id, updateData) {
     return {
       id: data.id,
       // Убираем временную зону из timestamp
-      start: data.start_time.replace(/\+\d{2}$/, "").replace(/\.\d{6}/, ""),
-      end: data.end_time.replace(/\+\d{2}$/, "").replace(/\.\d{6}/, ""),
+      // start: data.start_time.replace(/\+\d{2}$/, "").replace(/\.\d{6}/, ""),
+      // end: data.end_time.replace(/\+\d{2}$/, "").replace(/\.\d{6}/, ""),
+      start: data.start_time,
+      end: data.end_time,
       available: data.is_available,
     };
   } catch (err) {

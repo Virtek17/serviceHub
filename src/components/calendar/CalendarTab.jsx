@@ -84,6 +84,13 @@ export default function CalendarTab({
 
   // Преобразуем слоты из API в события для календаря
   const events = slots.map((slot) => {
+    console.log("🟣 [Calendar] Преобразуем слот для отображения:", {
+      id: slot.id,
+      start: slot.start,
+      end: slot.end,
+      startParsed: new Date(slot.start).toString(),
+    });
+
     return {
       id: slot.id,
       title: slot.available ? "🟢 Свободно" : `🔴 Занято`,

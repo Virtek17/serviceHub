@@ -33,8 +33,17 @@ export function useTimeSlots(performerId) {
 
   // Создание
   const addSlot = useCallback(async (slotData) => {
+    console.log("🟡 [Hook-1] Получили данные:", slotData);
     const newSlot = await createSlot(slotData);
-    setSlots((prev) => [...prev, newSlot]);
+    console.log("🟡 [Hook-2] Получили из API:", newSlot);
+    setSlots((prev) => {
+      const updated = [...prev, newSlot];
+      console.log(
+        "🟡 [Hook-3] Обновили состояние, всего слотов:",
+        updated.length
+      );
+      return updated;
+    });
     return newSlot;
   }, []);
 
