@@ -1,6 +1,6 @@
 // главная страница - выбор роли
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { User, Store } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import RoleCard from "../components/common/RoleCard";
@@ -18,30 +18,50 @@ export default function HomePage() {
     }
   };
 
-  const [data, setData] = useState();
+  const [log, setLog] = useState([]);
+  const [info, setInfo] = useState(null);
 
-  const handleClick = () => {
+  useEffect(() => {
     const wa = window.WebApp;
 
+    if (!wa) return;
+
+    // Сообщаем MAX, что мы готовы
+    wa.ready();
+
+    // Подписываемся на события клиента
+    const handleEvent = (eventName, data) => {
+      setLog((prev) => [...prev, { eventName, data }]);
+    };
+
+    wa.onEvent("WebAppReady", (data) => handleEvent("WebAppReady", data));
+    wa.onEvent("WebAppBackButtonPressed", (data) =>
+      handleEvent("WebAppBackButtonPressed", data)
+    );
+
+    return () => {
+      wa.offEvent("WebAppReady");
+      wa.offEvent("WebAppBackButtonPressed");
+    };
+  }, []);
+
+  const showInfo = () => {
+    const wa = window.WebApp;
     if (!wa) {
-      setData("WebApp не найден. Приложение не запущено внутри MAX.");
+      setInfo("WebApp недоступен");
       return;
     }
 
-    // Сообщаем MAX, что мини-приложение готово
-    if (wa.ready) wa.ready();
-
-    const result = {
+    setInfo({
       version: wa.version,
       platform: wa.platform,
       initData: wa.initData,
       initDataUnsafe: wa.initDataUnsafe,
-    };
-
-    console.log("WA Data: ", result);
-
-    setData(JSON.stringify(result, null, 2));
+    });
   };
+
+  console.log(log);
+  console.log(info);
 
   return (
     <>
@@ -88,7 +108,7 @@ export default function HomePage() {
               Присоединяйтесь к <em className="font-medium">нашей</em> платформе
               услуг
             </h1>
-            <button className="bg-white p-4" onClick={handleClick}>
+            <button className="bg-white p-4" onClick={showInfo}>
               получить данные
             </button>
             <p className="text-base sm:text-lg text-[#555555] dark:text-[#C0C0C0] opacity-80 mb-12 sm:mb-16 max-w-[50ch] mx-auto px-4">
