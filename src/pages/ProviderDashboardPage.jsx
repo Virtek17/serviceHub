@@ -1,10 +1,17 @@
 import { useState } from "react";
-import { Calendar, BarChart3, Settings, TrendingUp } from "lucide-react";
+import {
+  Calendar,
+  BarChart3,
+  Settings,
+  TrendingUp,
+  ClipboardList,
+} from "lucide-react";
 import { toast } from "react-toastify";
 import PageHeader from "../components/common/PageHeader";
 import DashboardSidebar from "../components/dashboard/DashboardSidebar";
 import OverviewTab from "../components/dashboard/OverviewTab";
 import ServicesTab from "../components/dashboard/ServicesTab";
+import BookingsTab from "../components/dashboard/BookingsTab";
 import EmptyState from "../components/common/EmptyState";
 import EditServiceModal from "../components/modals/EditServiceModal";
 import AddServiceModal from "../components/modals/AddServiceModal";
@@ -15,6 +22,7 @@ import CalendarTab from "../components/calendar/CalendarTab";
 import { useTimeSlots } from "../hooks/useTimeSlots";
 import { useAuth } from "../hooks/useAuth";
 import { useOverviewStats } from "../hooks/useOverviewStats";
+import { useBookings } from "../hooks/useBookings";
 
 export default function ProviderDashboardPage() {
   const { user, loading: authLoading } = useAuth();
@@ -46,6 +54,14 @@ export default function ProviderDashboardPage() {
     loading: statsLoading,
   } = useOverviewStats(id);
 
+  // Загружаем записи
+  const {
+    bookings,
+    loading: bookingsLoading,
+    updateBookingStatus,
+    refetch: refetchBookings,
+  } = useBookings(id);
+
   const {
     slots,
     loading: slotsLoading,
@@ -56,6 +72,7 @@ export default function ProviderDashboardPage() {
 
   const tabs = [
     { id: "overview", label: "Обзор", icon: BarChart3 },
+    { id: "bookings", label: "Записи", icon: ClipboardList },
     { id: "services", label: "Услуги", icon: Settings },
     { id: "calendar", label: "Расписание", icon: Calendar },
     { id: "analytics", label: "Аналитика", icon: TrendingUp },
@@ -230,6 +247,24 @@ export default function ProviderDashboardPage() {
     }
   };
 
+  const handleUpdateBookingStatus = async (bookingId, newStatus) => {
+    try {
+      await updateBookingStatus(bookingId, newStatus);
+
+      const statusLabels = {
+        completed: "завершённой",
+        canceled: "отменённой",
+      };
+
+      toast.success(`Запись отмечена ${statusLabels[newStatus]}!`);
+
+      // Обновляем статистику
+      refetchBookings();
+    } catch (err) {
+      toast.error(`Ошибка: ${err.message}`);
+    }
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case "overview":
@@ -261,6 +296,15 @@ export default function ProviderDashboardPage() {
             onAddCategory={() => setShowAddCategoryModal(true)}
             onEditService={handleEditService}
             onDeleteService={handleDeleteService}
+          />
+        );
+
+      case "bookings":
+        return (
+          <BookingsTab
+            bookings={bookings}
+            onUpdateStatus={handleUpdateBookingStatus}
+            loading={bookingsLoading}
           />
         );
 

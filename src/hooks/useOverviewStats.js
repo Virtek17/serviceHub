@@ -7,6 +7,8 @@ export function useOverviewStats(performerId) {
     monthlyBookings: 0,
     activeServices: 0,
     availableSlots: 0,
+    completedServices: 0,
+    monthlyRevenue: 0,
   });
   const [recentBookings, setRecentBookings] = useState([]);
   const [upcomingSlots, setUpcomingSlots] = useState([]);
@@ -55,14 +57,36 @@ export function useOverviewStats(performerId) {
           .eq("performer_id", performerId)
           .eq("is_available", true);
 
+        // 5. Выполненных услуг
+        const { count: completedServices } = await supabase
+          .from("bookings")
+          .select("*", { count: "exact", head: true })
+          .eq("performer_id", performerId)
+          .eq("status", "completed");
+
+        // 6. Выручка за месяц (из завершённых записей)
+        const { data: completedBookings } = await supabase
+          .from("bookings")
+          .select("service:services(price)")
+          .eq("performer_id", performerId)
+          .eq("status", "completed")
+          .gte("created_at", firstDayOfMonth);
+
+        const monthlyRevenue = (completedBookings || []).reduce(
+          (sum, booking) => sum + (booking.service?.price || 0),
+          0
+        );
+
         setStats({
           totalBookings: totalBookings || 0,
           monthlyBookings: monthlyBookings || 0,
           activeServices: activeServices || 0,
           availableSlots: availableSlots || 0,
+          completedServices: completedServices || 0,
+          monthlyRevenue: monthlyRevenue || 0,
         });
 
-        // 5. Последние записи (5 шт)
+        // 7. Последние записи (5 шт)
         const { data: bookingsData } = await supabase
           .from("bookings")
           .select(
@@ -91,7 +115,7 @@ export function useOverviewStats(performerId) {
 
         setRecentBookings(formattedBookings);
 
-        // 6. Ближайшие слоты (5 шт)
+        // 8. Ближайшие слоты (5 шт)
         const today = new Date().toISOString();
 
         const { data: slotsData } = await supabase
