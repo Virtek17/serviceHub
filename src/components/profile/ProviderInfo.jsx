@@ -1,14 +1,23 @@
 import { MapPin, Star } from "lucide-react";
 
 export default function ProviderInfo({ provider }) {
+  // Получаем первую букву имени для аватарки
+  const initial = provider.name ? provider.name.charAt(0).toUpperCase() : "?";
+
   return (
     <div className="bg-white dark:bg-[#1E1E1E] rounded-3xl p-6 md:p-8 mb-8 border border-[#E0E0E0] dark:border-[#404040]">
       <div className="flex items-start md:flex-row flex-col gap-8">
-        <img
-          src={provider.avatar || "https://placehold.co/150?text=👤"}
-          alt={provider.name || "Мастер"}
-          className="w-32 h-32 rounded-3xl object-cover"
-        />
+        {provider.avatar && !provider.avatar.includes("placehold.co") ? (
+          <img
+            src={provider.avatar}
+            alt={provider.name || "Мастер"}
+            className="w-32 h-32 rounded-3xl object-cover"
+          />
+        ) : (
+          <div className="w-32 h-32 rounded-3xl bg-gradient-to-br from-[#8B70F6] to-[#9D7DFF] flex items-center justify-center">
+            <span className="text-5xl font-semibold text-white">{initial}</span>
+          </div>
+        )}
 
         <div className="flex-1">
           <h1

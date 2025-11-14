@@ -17,6 +17,7 @@ export async function fetchProviderById(providerId) {
       id,
       full_name,
       city,
+      photo_url,
       performer_profiles!inner(
         bio,
         performer_tags!inner(tag)
@@ -126,7 +127,7 @@ export async function fetchProviderById(providerId) {
     tags: profile.performer_profiles?.performer_tags?.map((t) => t.tag) || [],
     rating: 4.8,
     reviewCount: 0,
-    avatar: "https://placehold.co/150?text=👤",
+    avatar: profile.photo_url || null,
     services: servicesByCategory,
     timeSlots: formattedSlots,
   };

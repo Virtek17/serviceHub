@@ -67,21 +67,30 @@ export function AuthProvider({ children }) {
             id: userId,
             full_name: fullName,
             city: null,
+            photo_url: photoUrl,
           })
           .select()
           .single();
 
         if (insertError) throw insertError;
 
-        // Добавляем фото из MAX
-        const userWithPhoto = { ...newProfile, photo_url: photoUrl };
-        setUser(userWithPhoto);
+        setUser(newProfile);
         setIsProvider(false);
         setPerformerProfile(null);
       } else {
-        // Пользователь существует - добавляем фото из MAX
-        const userWithPhoto = { ...profile, photo_url: photoUrl };
-        setUser(userWithPhoto);
+        // Пользователь существует - обновляем фото если изменилось
+        if (profile.photo_url !== photoUrl) {
+          const { error: updateError } = await supabase
+            .from("profiles")
+            .update({ photo_url: photoUrl })
+            .eq("id", userId);
+
+          if (updateError) {
+            console.error("[AuthContext] Ошибка обновления фото:", updateError);
+          }
+        }
+
+        setUser({ ...profile, photo_url: photoUrl });
         setIsProvider(!!profile.performer_profiles);
         setPerformerProfile(profile.performer_profiles || null);
       }

@@ -10,13 +10,14 @@ export async function fetchProviders() {
         id,
         full_name,
         city,
+        photo_url,
         performer_profiles!inner(
           bio,
           performer_tags!inner(tag)
         )
       `
       )
-      .order("full_name", { ascending: true }); // ← исправлено!
+      .order("full_name", { ascending: true });
 
     console.log("[DEBUG] Profiles data:", profiles);
     console.log("[DEBUG] Profiles error:", profilesError);
@@ -41,7 +42,7 @@ export async function fetchProviders() {
       reviewCount: 0,
       priceFrom: 1000,
       categories: [],
-      avatar: "https://placehold.co/150?text=👤",
+      avatar: profile.photo_url || null,
     }));
   } catch (error) {
     console.error("[API] Ошибка загрузки мастеров:", error);

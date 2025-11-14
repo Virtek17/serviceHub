@@ -10,6 +10,9 @@ export default function ProviderCard({
   tags,
   priceFrom,
 }) {
+  // Получаем первую букву имени для аватарки
+  const initial = name ? name.charAt(0).toUpperCase() : "?";
+
   return (
     <div className="space-y-6">
       <div
@@ -18,11 +21,19 @@ export default function ProviderCard({
       >
         {/* Avatar */}
         <div className="flex items-start flex-col md:flex-row gap-6">
-          <img
-            src={avatar}
-            alt={name}
-            className="w-20 h-20 rounded-2xl object-cover"
-          />
+          {avatar && !avatar.includes("placehold.co") ? (
+            <img
+              src={avatar}
+              alt={name}
+              className="w-20 h-20 rounded-2xl object-cover"
+            />
+          ) : (
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#FF6B9D] to-[#FF8FB3] flex items-center justify-center">
+              <span className="text-3xl font-semibold text-white">
+                {initial}
+              </span>
+            </div>
+          )}
 
           {/* Content */}
           <div className="flex-1">
