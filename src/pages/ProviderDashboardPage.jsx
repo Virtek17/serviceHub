@@ -7,6 +7,7 @@ import ServicesTab from "../components/dashboard/ServicesTab";
 import EmptyState from "../components/common/EmptyState";
 import EditServiceModal from "../components/modals/EditServiceModal";
 import AddServiceModal from "../components/modals/AddServiceModal";
+import AddCategoryModal from "../components/modals/AddCategoryModal";
 import { usePerformerServicesFlat } from "../hooks/usePerformerServicesFlat";
 import { useDeleteService } from "../hooks/useDeleteService";
 import CalendarTab from "../components/calendar/CalendarTab";
@@ -21,12 +22,19 @@ export default function ProviderDashboardPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [editingService, setEditingService] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
   const { removeService } = useDeleteService();
 
-  const { services, categories, loading, editService, addService } =
-    usePerformerServicesFlat(id);
+  const {
+    services,
+    categories,
+    loading,
+    editService,
+    addService,
+    addCategory,
+  } = usePerformerServicesFlat(id);
   // TODO: делать расчёт из БД
   const stats = {
     totalBookings: 124,
@@ -252,6 +260,23 @@ export default function ProviderDashboardPage() {
     }
   };
 
+  const handleAddCategory = async (formData) => {
+    setIsSaving(true);
+    try {
+      await addCategory({
+        name: formData.name,
+        description: formData.description,
+      });
+
+      setShowAddCategoryModal(false);
+      alert("✅ Категория успешно добавлена!");
+    } catch (err) {
+      alert("❌ Ошибка: " + err.message);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case "overview":
@@ -271,6 +296,7 @@ export default function ProviderDashboardPage() {
           <ServicesTab
             services={services}
             onAddService={() => setShowAddModal(true)}
+            onAddCategory={() => setShowAddCategoryModal(true)}
             onEditService={handleEditService}
             onDeleteService={handleDeleteService}
           />
@@ -346,6 +372,13 @@ export default function ProviderDashboardPage() {
         onSave={handleAddService}
         isLoading={isSaving}
         categories={categories}
+      />
+
+      <AddCategoryModal
+        isOpen={showAddCategoryModal}
+        onClose={() => setShowAddCategoryModal(false)}
+        onSave={handleAddCategory}
+        isLoading={isSaving}
       />
     </div>
   );

@@ -65,6 +65,7 @@ export default function AddServiceModal({
               onChange={(e) => handleChange("category_id", e.target.value)}
               className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8B70F6] focus:border-transparent"
               required
+              disabled={categories.length === 0}
             >
               {categories.length === 0 ? (
                 <option value="">Нет доступных категорий</option>
@@ -76,6 +77,11 @@ export default function AddServiceModal({
                 ))
               )}
             </select>
+            {categories.length === 0 && (
+              <p className="text-xs text-[#FF6B9D] mt-1">
+                Сначала создайте категорию, нажав кнопку "Категория"
+              </p>
+            )}
           </div>
 
           <div>

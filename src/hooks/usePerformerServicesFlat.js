@@ -95,5 +95,41 @@ export function usePerformerServicesFlat(performerId) {
     }
   }, []);
 
-  return { services, categories, loading, error, editService, addService };
+  // Функция добавления категории
+  const addCategory = useCallback(
+    async (categoryData) => {
+      try {
+        const { data, error: insertError } = await supabase
+          .from("service_categories")
+          .insert({
+            performer_id: performerId,
+            name: categoryData.name,
+            description: categoryData.description || null,
+          })
+          .select()
+          .single();
+
+        if (insertError) throw insertError;
+
+        // Добавляем в локальное состояние
+        setCategories((prev) => [...prev, data]);
+
+        return data;
+      } catch (err) {
+        setError(err.message);
+        throw err;
+      }
+    },
+    [performerId]
+  );
+
+  return {
+    services,
+    categories,
+    loading,
+    error,
+    editService,
+    addService,
+    addCategory,
+  };
 }
