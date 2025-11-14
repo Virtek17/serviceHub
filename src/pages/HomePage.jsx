@@ -30,6 +30,8 @@ export default function HomePage() {
     }
   }, []);
 
+  console.log(user);
+
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-[#F8F6F3] to-[#ECE9E5] dark:from-[#1A1A1A] dark:to-[#0F0F0F]">
