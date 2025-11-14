@@ -9,11 +9,16 @@ import { useAuth } from "../hooks/useAuth";
 export default function HomePage() {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
-  const { user, loading: authLoading } = useAuth();
+  const { user, isProvider, loading: authLoading } = useAuth();
 
   const handleRoleSelect = (role) => {
     if (role === "provider") {
-      navigate("/provider/setup");
+      // Если уже исполнитель - на дашборд, иначе на регистрацию
+      if (isProvider) {
+        navigate("/provider/dashboard");
+      } else {
+        navigate("/provider/setup");
+      }
     } else {
       navigate("/customer/browse");
     }
