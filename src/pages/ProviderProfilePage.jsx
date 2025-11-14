@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useProviderById } from "../hooks/useProviderById";
 import { createBooking } from "../Api/booking";
+import { getCurrentUser } from "../Api/user";
 import PageHeader from "../components/common/PageHeader";
 import ProviderInfo from "../components/profile/ProviderInfo";
 import ServicesList from "../components/profile/ServicesList";
@@ -12,12 +13,23 @@ export default function ProviderProfilePage() {
   const { id } = useParams();
   const { provider, loading, error, refetch } = useProviderById(id);
 
-  const customerId = "5ca0c69b-b333-4650-9b4d-aa1ab3d42749";
-
+  const [customerId, setCustomerId] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [showBooking, setShowBooking] = useState(false);
   const [bookingLoading, setBookingLoading] = useState(false);
+
+  // Получаем ID текущего пользователя
+  useEffect(() => {
+    getCurrentUser()
+      .then((user) => setCustomerId(user.userId))
+      .catch((err) => {
+        console.error("Ошибка получения пользователя:", err);
+        // Временно используем существующий ID для тестирования
+        // TODO: Замените на реальный ID из вашей таблицы profiles
+        setCustomerId(1); // Используем ID провайдера для теста
+      });
+  }, []);
 
   const handleServiceSelect = (service) => {
     setSelectedService(service);
@@ -30,10 +42,20 @@ export default function ProviderProfilePage() {
   };
 
   const handleBooking = async () => {
-    if (!selectedService || !selectedSlot) return;
+    if (!selectedService || !selectedSlot || !customerId) {
+      alert("Ошибка: не удалось определить пользователя");
+      return;
+    }
 
     setBookingLoading(true);
     try {
+      console.log("Booking data:", {
+        customer_id: customerId,
+        performer_id: provider.id,
+        service_id: selectedService.id,
+        slot_id: selectedSlot.id,
+      });
+      
       await createBooking({
         customer_id: customerId,
         performer_id: provider.id,
