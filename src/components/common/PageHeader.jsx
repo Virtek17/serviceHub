@@ -8,6 +8,7 @@ export default function PageHeader({
   showUser = false,
   userName,
   userCity,
+  userAvatar,
   onMenuClick,
 }) {
   const navigate = useNavigate();
@@ -41,9 +42,17 @@ export default function PageHeader({
         {showUser && (
           <div className="hidden md:flex items-center space-x-4">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-[#8B70F6] to-[#9D7DFF] rounded-xl flex items-center justify-center">
-                <User size={20} className="text-white" />
-              </div>
+              {userAvatar ? (
+                <img
+                  src={userAvatar}
+                  alt={userName}
+                  className="w-10 h-10 rounded-xl object-cover"
+                />
+              ) : (
+                <div className="w-10 h-10 bg-gradient-to-br from-[#8B70F6] to-[#9D7DFF] rounded-xl flex items-center justify-center">
+                  <User size={20} className="text-white" />
+                </div>
+              )}
               <div>
                 <p className="text-sm font-medium text-[#0D0D0D] dark:text-white">
                   {userName}

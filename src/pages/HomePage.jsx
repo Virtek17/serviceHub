@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { User, Store } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import RoleCard from "../components/common/RoleCard";
+import { useAuth } from "../hooks/useAuth";
 
 export default function HomePage() {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
+  const { user, loading: authLoading } = useAuth();
 
   const handleRoleSelect = (role) => {
     if (role === "provider") {
@@ -96,30 +98,12 @@ export default function HomePage() {
                 letterSpacing: "-0.02em",
               }}
             >
-              {data
-                ? `Привет, ${data.user.first_name} ${data.user.last_name}!`
+              {authLoading
+                ? "Загрузка..."
+                : user
+                ? `Привет, ${user.full_name}!`
                 : "Присоединяйтесь к нашей платформе услуг"}
             </h1>
-            <div>
-              <h1>Debug WebApp Data</h1>
-              {data ? (
-                <pre
-                  style={{
-                    background: "#f0f0f0",
-                    padding: 20,
-                    borderRadius: 8,
-                    overflowX: "auto",
-                  }}
-                >
-                  {JSON.stringify(data, null, 2)}
-                </pre>
-              ) : (
-                <p>Данные ещё не загружены...</p>
-              )}
-            </div>
-            <button className=" p-4" style={{ backgroundColor: "red" }}>
-              получить данные
-            </button>
             <p className="text-base sm:text-lg text-[#555555] dark:text-[#C0C0C0] opacity-80 mb-12 sm:mb-16 max-w-[50ch] mx-auto px-4">
               Выберите свою роль и начните работать с клиентами или находить
               нужные услуги

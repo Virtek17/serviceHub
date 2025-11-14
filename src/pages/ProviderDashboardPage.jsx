@@ -11,10 +11,11 @@ import { usePerformerServicesFlat } from "../hooks/usePerformerServicesFlat";
 import { useDeleteService } from "../hooks/useDeleteService";
 import CalendarTab from "../components/calendar/CalendarTab";
 import { useTimeSlots } from "../hooks/useTimeSlots";
+import { useAuth } from "../hooks/useAuth";
 
 export default function ProviderDashboardPage() {
-  // TODO: получать id текущего пользователя (себя)
-  const id = "123";
+  const { user, loading: authLoading } = useAuth();
+  const id = user?.id;
 
   const [activeTab, setActiveTab] = useState("overview");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -290,14 +291,23 @@ export default function ProviderDashboardPage() {
     }
   };
 
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-[#666666] dark:text-[#AAAAAA]">Загрузка...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#F8F6F3] to-[#ECE9E5] dark:from-[#1A1A1A] dark:to-[#0F0F0F]">
       <PageHeader
         backTo="/"
         backLabel="На главную"
         showUser
-        userName="Мастер-демо"
-        userCity="Москва"
+        userName={user?.full_name || "Мастер"}
+        userCity={user?.city || "Не указан"}
+        userAvatar={user?.photo_url}
         onMenuClick={() => setIsSidebarOpen(true)}
       />
 
