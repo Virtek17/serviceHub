@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import RoleCard from "../components/common/RoleCard";
 
 export default function HomePage() {
-  const [user, setUser] = useState(null);
+  const [data, setData] = useState(null);
   const navigate = useNavigate();
 
   const handleRoleSelect = (role) => {
@@ -21,16 +21,25 @@ export default function HomePage() {
     const wa = window.WebApp;
     if (!wa) return;
 
-    // Сообщаем MAX, что мы готовы
+    // Сообщаем MAX, что приложение готово
     wa.ready();
 
-    // Берём данные о пользователе
-    if (wa.initDataUnsafe && wa.initDataUnsafe.user) {
-      setUser(wa.initDataUnsafe.user);
-    }
-  }, []);
+    // Подписка на событие WebAppReady
+    const onReady = () => {
+      setData({
+        version: wa.version,
+        platform: wa.platform,
+        initData: wa.initData,
+        initDataUnsafe: wa.initDataUnsafe,
+        user: wa.initDataUnsafe?.user || null,
+        chat: wa.initDataUnsafe?.chat || null,
+      });
+    };
 
-  console.log(user);
+    wa.onEvent("WebAppReady", onReady);
+
+    return () => wa.offEvent("WebAppReady", onReady);
+  }, []);
 
   return (
     <>
@@ -74,10 +83,27 @@ export default function HomePage() {
                 letterSpacing: "-0.02em",
               }}
             >
-              {user
-                ? `Привет, ${user.first_name} ${user.last_name}!`
+              {data
+                ? `Привет, ${data.user.first_name} ${data.user.last_name}!`
                 : "Присоединяйтесь к нашей платформе услуг"}
             </h1>
+            <div>
+              <h1>Debug WebApp Data</h1>
+              {data ? (
+                <pre
+                  style={{
+                    background: "#f0f0f0",
+                    padding: 20,
+                    borderRadius: 8,
+                    overflowX: "auto",
+                  }}
+                >
+                  {JSON.stringify(data, null, 2)}
+                </pre>
+              ) : (
+                <p>Данные ещё не загружены...</p>
+              )}
+            </div>
             <button className="bg-[blue] p-4">получить данные</button>
             <p className="text-base sm:text-lg text-[#555555] dark:text-[#C0C0C0] opacity-80 mb-12 sm:mb-16 max-w-[50ch] mx-auto px-4">
               Выберите свою роль и начните работать с клиентами или находить
