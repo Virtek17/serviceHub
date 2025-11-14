@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -63,7 +64,7 @@ export default function CalendarTab({
       setShowModal(false);
       setSelectedSlot(null);
     } catch (err) {
-      alert("❌ Ошибка: " + err.message);
+      toast.error(`Ошибка: ${err.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -76,7 +77,7 @@ export default function CalendarTab({
       setShowModal(false);
       setSelectedSlot(null);
     } catch (err) {
-      alert("❌ Ошибка: " + err.message);
+      toast.error(`Ошибка: ${err.message}`);
     } finally {
       setIsLoading(false);
     }

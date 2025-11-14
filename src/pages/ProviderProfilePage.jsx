@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useProviderById } from "../hooks/useProviderById";
 import { createBooking } from "../Api/booking";
 import { useAuth } from "../hooks/useAuth";
@@ -31,7 +32,7 @@ export default function ProviderProfilePage() {
 
   const handleBooking = async () => {
     if (!selectedService || !selectedSlot || !user) {
-      alert("Ошибка: не удалось определить пользователя");
+      toast.error("Ошибка: не удалось определить пользователя");
       return;
     }
 
@@ -54,13 +55,13 @@ export default function ProviderProfilePage() {
       // Обновляем данные мастера, чтобы получить актуальные слоты
       refetch();
 
-      alert("✅ Вы успешно записаны!");
+      toast.success("Вы успешно записаны!");
 
       setShowBooking(false);
       setSelectedService(null);
       setSelectedSlot(null);
     } catch (err) {
-      alert("❌ Ошибка: " + err.message);
+      toast.error(`Ошибка: ${err.message}`);
     } finally {
       setBookingLoading(false);
     }
