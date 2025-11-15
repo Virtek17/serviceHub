@@ -113,14 +113,14 @@ export default function CalendarTab({
           Расписание
         </h2>
         <button
-          className="px-3 py-2 bg-[#FF6F3C] text-white rounded-xl hover:bg-[#F55C91] transition-colors flex items-center gap-2"
+          className="px-4 py-2 bg-[#FF6B9D] text-white rounded-xl hover:bg-[#F55C91] transition-colors flex items-center gap-2"
           onClick={() => {
             setSelectedSlot(null);
             setShowModal(true);
           }}
         >
-          <span className="hidden sm:flex">Добавить слот</span>
           <Plus size={20} />
+          Добавить слот
         </button>
       </div>
 
@@ -131,14 +131,20 @@ export default function CalendarTab({
           timeZone="local"
           initialView="timeGridWeek"
           views={{
-            timeGridDay: { buttonText: "День" },
-            timeGridWeek: { buttonText: "Неделя" },
-            dayGridMonth: { buttonText: "Месяц" }
+            timeGridDay: {
+              buttonText: "День",
+            },
+            timeGridWeek: {
+              buttonText: "Неделя",
+            },
+            dayGridMonth: {
+              buttonText: "Месяц",
+            },
           }}
           headerToolbar={{
-            left: isMobile ? "prev,next" : "prev,next today",
+            left: "prev,next today",
             center: "title",
-            right: isMobile ? "" : "timeGridDay,timeGridWeek,dayGridMonth"
+            right: "timeGridDay,timeGridWeek,dayGridMonth",
           }}
           slotMinTime="08:00:00"
           slotMaxTime="21:00:00"
@@ -147,8 +153,7 @@ export default function CalendarTab({
           events={events}
           dateClick={handleDateClick}
           eventClick={handleEventClick}
-          height={isMobile ? "auto" : "650px"}
-          contentHeight={isMobile ? "auto" : "650px"}
+          height="auto"
           nowIndicator={true}
           editable={false}
           selectable={true}
