@@ -113,7 +113,7 @@ export default function CalendarTab({
           Расписание
         </h2>
         <button
-          className="px-4 py-2 bg-[#FF6F3C] text-white rounded-xl hover:bg-[#F55C91] transition-colors flex items-center gap-2"
+          className="px-4 py-2 bg-[#FF6B9D] text-white rounded-xl hover:bg-[#F55C91] transition-colors flex items-center gap-2"
           onClick={() => {
             setSelectedSlot(null);
             setShowModal(true);
