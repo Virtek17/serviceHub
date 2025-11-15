@@ -1,10 +1,17 @@
 import { useState } from "react";
-import { Calendar, BarChart3, Settings, TrendingUp } from "lucide-react";
+import {
+  Calendar,
+  BarChart3,
+  Settings,
+  TrendingUp,
+  ClipboardList,
+} from "lucide-react";
 import { toast } from "react-toastify";
 import PageHeader from "../components/common/PageHeader";
 import DashboardSidebar from "../components/dashboard/DashboardSidebar";
 import OverviewTab from "../components/dashboard/OverviewTab";
 import ServicesTab from "../components/dashboard/ServicesTab";
+import BookingsTab from "../components/dashboard/BookingsTab";
 import EmptyState from "../components/common/EmptyState";
 import EditServiceModal from "../components/modals/EditServiceModal";
 import AddServiceModal from "../components/modals/AddServiceModal";
@@ -14,6 +21,8 @@ import { useDeleteService } from "../hooks/useDeleteService";
 import CalendarTab from "../components/calendar/CalendarTab";
 import { useTimeSlots } from "../hooks/useTimeSlots";
 import { useAuth } from "../hooks/useAuth";
+import { useOverviewStats } from "../hooks/useOverviewStats";
+import { useBookings } from "../hooks/useBookings";
 
 export default function ProviderDashboardPage() {
   const { user, loading: authLoading } = useAuth();
@@ -36,63 +45,22 @@ export default function ProviderDashboardPage() {
     addService,
     addCategory,
   } = usePerformerServicesFlat(id);
-  // TODO: делать расчёт из БД
-  const stats = {
-    totalBookings: 124,
-    monthlyRevenue: 45600,
-    upcomingAppointments: 8,
-    completedServices: 98,
-  };
 
-  // TODO: тянуть записи из БД
-  const recentBookings = [
-    {
-      id: 1,
-      client: "Анна Иванова",
-      service: "Маникюр классический",
-      date: "2024-11-12",
-      time: "14:00",
-      price: 1200,
-      status: "upcoming",
-    },
-    {
-      id: 2,
-      client: "Мария Петрова",
-      service: "Педикюр с покрытием",
-      date: "2024-11-11",
-      time: "16:30",
-      price: 1800,
-      status: "completed",
-    },
-    {
-      id: 3,
-      client: "Елена Сидорова",
-      service: "Наращивание ногтей",
-      date: "2024-11-10",
-      time: "12:00",
-      price: 2500,
-      status: "completed",
-    },
-  ];
+  // Загружаем реальную статистику из БД
+  const {
+    stats,
+    recentBookings,
+    upcomingSlots,
+    loading: statsLoading,
+  } = useOverviewStats(id);
 
-  // TODO: тянуть записи из БД
-  const upcomingSlots = [
-    { date: "2024-11-12", time: "10:00", available: true },
-    {
-      date: "2024-11-12",
-      time: "14:00",
-      available: false,
-      client: "Анна Иванова",
-    },
-    { date: "2024-11-12", time: "16:00", available: true },
-    { date: "2024-11-13", time: "09:00", available: true },
-    {
-      date: "2024-11-13",
-      time: "11:00",
-      available: false,
-      client: "Ольга Козлова",
-    },
-  ];
+  // Загружаем записи
+  const {
+    bookings,
+    loading: bookingsLoading,
+    updateBookingStatus,
+    refetch: refetchBookings,
+  } = useBookings(id);
 
   const {
     slots,
@@ -104,6 +72,7 @@ export default function ProviderDashboardPage() {
 
   const tabs = [
     { id: "overview", label: "Обзор", icon: BarChart3 },
+    { id: "bookings", label: "Записи", icon: ClipboardList },
     { id: "services", label: "Услуги", icon: Settings },
     { id: "calendar", label: "Расписание", icon: Calendar },
     { id: "analytics", label: "Аналитика", icon: TrendingUp },
@@ -278,9 +247,36 @@ export default function ProviderDashboardPage() {
     }
   };
 
+  const handleUpdateBookingStatus = async (bookingId, newStatus) => {
+    try {
+      await updateBookingStatus(bookingId, newStatus);
+
+      const statusLabels = {
+        completed: "завершённой",
+        canceled: "отменённой",
+      };
+
+      toast.success(`Запись отмечена ${statusLabels[newStatus]}!`);
+
+      // Обновляем статистику
+      refetchBookings();
+    } catch (err) {
+      toast.error(`Ошибка: ${err.message}`);
+    }
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case "overview":
+        if (statsLoading) {
+          return (
+            <div className="flex items-center justify-center py-12">
+              <p className="text-[#666666] dark:text-[#AAAAAA]">
+                Загрузка статистики...
+              </p>
+            </div>
+          );
+        }
         return (
           <OverviewTab
             stats={stats}
@@ -300,6 +296,15 @@ export default function ProviderDashboardPage() {
             onAddCategory={() => setShowAddCategoryModal(true)}
             onEditService={handleEditService}
             onDeleteService={handleDeleteService}
+          />
+        );
+
+      case "bookings":
+        return (
+          <BookingsTab
+            bookings={bookings}
+            onUpdateStatus={handleUpdateBookingStatus}
+            loading={bookingsLoading}
           />
         );
 

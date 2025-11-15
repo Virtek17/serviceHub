@@ -7,20 +7,32 @@ export default function OverviewTab({ stats, recentBookings, upcomingSlots }) {
   return (
     <div className="space-y-8">
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <StatCard
           icon={Calendar}
           value={stats.totalBookings}
           label="Записей всего"
           trend="+12%"
-          gradient="from-[#FF6F3C] to-[#9D7DFF]"
+          gradient="from-[#8B70F6] to-[#9D7DFF]"
+        />
+        <StatCard
+          icon={Clock}
+          value={stats.monthlyBookings}
+          label="Записей за месяц"
+          gradient="from-[#FF6B9D] to-[#FF8FB3]"
+        />
+        <StatCard
+          icon={TrendingUp}
+          value={stats.completedServices}
+          label="Услуг выполнено"
+          gradient="from-[#10B981] to-[#059669]"
         />
         <StatCard
           icon={DollarSign}
           value={`${stats.monthlyRevenue.toLocaleString()} ₽`}
           label="Выручка за месяц"
           trend="+8%"
-          gradient="from-[#FF6F3C] to-[#FF8FB3]"
+          gradient="from-[#FF6B9D] to-[#FF8FB3]"
         />
         <StatCard
           icon={Clock}
@@ -30,8 +42,14 @@ export default function OverviewTab({ stats, recentBookings, upcomingSlots }) {
         />
         <StatCard
           icon={TrendingUp}
-          value={stats.completedServices}
-          label="Услуг выполнено"
+          value={stats.activeServices}
+          label="Активных услуг"
+          gradient="from-[#8B70F6] to-[#9D7DFF]"
+        />
+        <StatCard
+          icon={Calendar}
+          value={stats.availableSlots}
+          label="Свободных слотов"
           gradient="from-[#10B981] to-[#059669]"
         />
       </div>
