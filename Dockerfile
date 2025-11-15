@@ -1,11 +1,30 @@
-FROM node:18 AS builder
+# ===== STAGE 1: BUILD =====
+FROM node:20-alpine AS builder
+
+# Рабочая директория внутри контейнера
 WORKDIR /app
+
+# Копируем package.json и package-lock.json (если есть)
 COPY package*.json ./
-RUN npm install
+
+# Устанавливаем зависимости
+RUN npm ci --silent
+
+# Копируем проект
 COPY . .
+
+# Сборка Vite (получается папка dist)
 RUN npm run build
 
-FROM nginx:stable
+
+# ===== STAGE 2: PROD (nginx) =====
+FROM nginx:stable-alpine
+
+# Копируем собранный front
 COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Открываем порт nginx
 EXPOSE 80
+
+# Старт nginx
 CMD ["nginx", "-g", "daemon off;"]
