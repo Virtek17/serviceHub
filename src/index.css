@@ -7,7 +7,7 @@
 
 /* Заголовок календаря */
 .fc-toolbar-title {
-  color: #0d0d0d !important;
+  color: white !important;
   font-size: 1.5rem !important;
   font-weight: 600 !important;
 }
@@ -18,7 +18,7 @@
 
 /* Кнопки навигации */
 .fc-button {
-  background: #FF6F3C !important;
+  background: #ff6f3c !important;
   border: none !important;
   color: white !important;
   border-radius: 0.75rem !important;
@@ -37,7 +37,7 @@
 }
 
 .fc-button-active {
-  background: #FF6F3C !important;
+  background: #ff6f3c !important;
 }
 
 .fc-button-active:hover {
@@ -165,12 +165,12 @@
 
 /* Индикатор текущего времени */
 .fc-timegrid-now-indicator-line {
-  border-color: #FF6F3C !important;
+  border-color: #ff6f3c !important;
   border-width: 2px !important;
 }
 
 .fc-timegrid-now-indicator-arrow {
-  border-color: #FF6F3C !important;
+  border-color: #ff6f3c !important;
 }
 
 /* Скроллбар */
@@ -206,4 +206,14 @@
 .dark .fc-theme-standard td,
 .dark .fc-theme-standard th {
   border-color: #404040 !important;
+}
+.fc .fc-button-group {
+  gap: 10px;
+}
+
+@media (max-width: 960px) {
+  .fc .fc-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
