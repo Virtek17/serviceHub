@@ -8,6 +8,7 @@ import ruLocale from "@fullcalendar/core/locales/ru";
 import { Plus } from "lucide-react";
 import SlotModal from "../modals/SlotModal";
 
+// TODO: не правильно показывает время, делает +5
 export default function CalendarTab({
   slots,
   onAddSlot,
@@ -19,6 +20,7 @@ export default function CalendarTab({
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDateClick = (info) => {
+    // Открываем модалку для создания нового слота с выбранной датой
     setSelectedSlot({
       date: info.dateStr,
       time: "10:00",
@@ -28,13 +30,15 @@ export default function CalendarTab({
   };
 
   const handleEventClick = (info) => {
+    // Находим слот по ID из extendedProps
     const slotId = info.event.extendedProps.slotId;
     const slot = slots.find((s) => s.id === slotId);
 
     if (slot) {
+      // Преобразуем формат API в формат формы
       const startDate = new Date(slot.start);
       const endDate = new Date(slot.end);
-      const duration = Math.round((endDate - startDate) / 60000);
+      const duration = Math.round((endDate - startDate) / 60000); // в минутах
 
       setSelectedSlot({
         id: slot.id,
@@ -51,8 +55,10 @@ export default function CalendarTab({
     setIsLoading(true);
     try {
       if (selectedSlot?.id) {
+        // Редактирование существующего слота
         await onEditSlot(selectedSlot.id, formData);
       } else {
+        // Создание нового слота
         await onAddSlot(formData);
       }
       setShowModal(false);
@@ -77,6 +83,7 @@ export default function CalendarTab({
     }
   };
 
+  // Преобразуем слоты из API в события для календаря
   const events = slots.map((slot) => {
     console.log("🟣 [Calendar] Преобразуем слот для отображения:", {
       id: slot.id,
@@ -106,7 +113,7 @@ export default function CalendarTab({
           Расписание
         </h2>
         <button
-          className="px-4 py-2 bg-[#FF6F3C] text-white rounded-xl hover:bg-[#F55C91] transition-colors flex items-center gap-2"
+          className="px-4 py-2 bg-[#FF6F3C] text-white rounded-xl hover:bg-[#FF4300] transition-colors flex items-center gap-2"
           onClick={() => {
             setSelectedSlot(null);
             setShowModal(true);
@@ -117,7 +124,7 @@ export default function CalendarTab({
         </button>
       </div>
 
-      <div className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-4 md:p-6 border border-[#E0E0E0] dark:border-[#404040] flex-wrap">
+      <div className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-4 md:p-6 border border-[#E0E0E0] dark:border-[#404040]">
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           locale={ruLocale}
