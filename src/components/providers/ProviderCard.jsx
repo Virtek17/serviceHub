@@ -19,7 +19,6 @@ export default function ProviderCard({
         className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 border border-[#E0E0E0] dark:border-[#404040] hover:shadow-lg transition-all duration-200 cursor-pointer hover:border-[#FF6F3C] dark:hover:border-[#FF6F3C]"
         onClick={onClick}
       >
-        {/* Avatar */}
         <div className="flex items-start flex-col md:flex-row gap-6">
           {avatar && !avatar.includes("placehold.co") ? (
             <img
@@ -35,7 +34,6 @@ export default function ProviderCard({
             </div>
           )}
 
-          {/* Content */}
           <div className="flex-1">
             <div className="flex items-start justify-between mb-3">
               <div>
@@ -49,8 +47,6 @@ export default function ProviderCard({
                   </div>
                   <div className="flex items-center gap-1">
                     <Star size={16} className="fill-[#F59E0B] text-[#F59E0B]" />
-                    {/* <span>{provider.rating}</span>
-                    <span>({provider.reviewCount})</span> */}
                   </div>
                 </div>
               </div>
@@ -64,7 +60,6 @@ export default function ProviderCard({
               {description}
             </p>
 
-            {/* Categories */}
             <div className="flex flex-wrap gap-2 mb-4">
               {categories.map((category) => (
                 <span
@@ -76,7 +71,6 @@ export default function ProviderCard({
               ))}
             </div>
 
-            {/* Tags */}
             <div className="flex flex-wrap gap-1.5 mb-4">
               {tags.map((tag) => (
                 <span
@@ -88,7 +82,6 @@ export default function ProviderCard({
               ))}
             </div>
 
-            {/* Price */}
             <div className="flex items-center gap-1 text-lg font-semibold text-[#0D0D0D] dark:text-white">
               <DollarSign size={18} />
               <span>от {priceFrom} ₽</span>

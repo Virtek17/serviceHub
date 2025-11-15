@@ -13,7 +13,6 @@ export default function HomePage() {
 
   const handleRoleSelect = (role) => {
     if (role === "provider") {
-      // Если уже исполнитель - на дашборд, иначе на регистрацию
       if (isProvider) {
         navigate("/provider/dashboard");
       } else {
@@ -30,7 +29,6 @@ export default function HomePage() {
 
     wa.ready();
 
-    // Попытка получить данные сразу
     if (wa.initDataUnsafe?.user) {
       setData({
         version: wa.version,
@@ -42,7 +40,6 @@ export default function HomePage() {
       });
     }
 
-    // Подписка на WebAppReady на случай, если событие произойдет позже
     const onReady = () => {
       if (wa.initDataUnsafe?.user) {
         setData({
@@ -92,10 +89,8 @@ export default function HomePage() {
           </div>
         </header>
 
-        {/* Main Content */}
         <main className="px-4 sm:px-6 py-6 sm:py-12">
           <div className="max-w-[800px] mx-auto text-center">
-            {/* Headline */}
             <h1
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight text-[#0D0D0D] dark:text-white mb-4 sm:mb-6 max-w-4xl mx-auto"
               style={{
@@ -115,10 +110,7 @@ export default function HomePage() {
               нужные услуги
             </p>
 
-            {/* Role Selection Cards */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 max-w-[700px] mx-auto">
-              {/* Provider Card */}
-
               <RoleCard
                 role={"provider"}
                 title={"Я исполнитель"}
@@ -132,7 +124,6 @@ export default function HomePage() {
                 ]}
                 handleRoleSelect={() => handleRoleSelect("provider")}
               />
-              {/* Customer Card */}
               <RoleCard
                 role={"customer"}
                 title={"Я заказчик"}
@@ -147,14 +138,6 @@ export default function HomePage() {
                 handleRoleSelect={() => handleRoleSelect("customer")}
               />
             </div>
-
-            {/* Additional Info
-            <div className="mt-12 sm:mt-16 p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-white/50 dark:bg-[#1E1E1E]/50 border border-[#E0E0E0] dark:border-[#404040] max-w-[600px] mx-auto">
-              <p className="text-xs sm:text-sm text-[#666666] dark:text-[#AAAAAA]">
-                <strong>Примечание:</strong> Это демо-версия для ознакомления с
-                функционалом. Регистрация и авторизация временно отключены.
-              </p>
-            </div> */}
           </div>
         </main>
       </div>

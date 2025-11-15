@@ -15,7 +15,6 @@ export default function CustomerBrowsePage() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
 
-  // Mock data for demonstration
   const cities = [
     "Москва",
     "Санкт-Петербург",
@@ -106,7 +105,7 @@ export default function CustomerBrowsePage() {
             <div className="mb-8">
               <h1
                 className="text-3xl font-semibold text-[#0D0D0D] dark:text-white mb-3"
-                style={{ fontFamily: "Roboto, sans-serif", }}
+                style={{ fontFamily: "Roboto, sans-serif" }}
               >
                 Найти мастера
               </h1>
@@ -114,11 +113,62 @@ export default function CustomerBrowsePage() {
                 Выберите подходящего специалиста для ваших потребностей
               </p>
               <p className="text-sm text-[#666666] dark:text-[#AAAAAA] mt-2">
-                Найдено мастеров: {filteredProviders.length}
+                {loading
+                  ? "Загрузка..."
+                  : `Найдено мастеров: ${filteredProviders.length}`}
               </p>
             </div>
 
-            {filteredProviders.length === 0 ? (
+            {loading ? (
+              <div className="flex flex-col gap-6">
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 border border-[#E0E0E0] dark:border-[#404040] animate-pulse"
+                  >
+                    <div className="flex items-start flex-col md:flex-row gap-6">
+                      {/* Avatar skeleton */}
+                      <div className="w-20 h-20 rounded-2xl bg-gray-200 dark:bg-gray-700"></div>
+
+                      <div className="flex-1 space-y-4">
+                        {/* Header skeleton */}
+                        <div className="flex items-start justify-between">
+                          <div className="space-y-2">
+                            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-48"></div>
+                            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-32"></div>
+                          </div>
+                          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-20"></div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
+                          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                        </div>
+
+                        <div className="flex gap-2">
+                          <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-16"></div>
+                          <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-20"></div>
+                        </div>
+
+                        <div className="flex gap-2">
+                          <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded w-12"></div>
+                          <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded w-16"></div>
+                          <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded w-14"></div>
+                        </div>
+
+                        <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-24"></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : error ? (
+              <EmptyState
+                icon={Search}
+                title="Ошибка загрузки"
+                description={error}
+              />
+            ) : filteredProviders.length === 0 ? (
               <EmptyState
                 icon={Search}
                 title="По вашему запросу ничего не найдено"
