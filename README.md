@@ -83,19 +83,30 @@ docker build -t servicehub .
 ### Запуск контейнера
 
 ```bash
-docker run -p 8080:80 servicehub
+docker run --name servicehub_container -p 3000:80 servicehub
 ```
 
-Приложение будет доступно по адресу: `http://localhost:8080`
+Приложение будет доступно по адресу: `http://localhost:3000`
 
 ### Запуск с переменными окружения
 
 ```bash
-docker run -p 8080:80 \
+  docker build -t servicehub .
+```
+
+```bash
+  docker run --name servicehub_container -p 3000:80 servicehub
+```
+Приложение будет доступно по адресу: `http://localhost:3000`
+
+### Обновление приложения
+```bash
+docker run --name servicehub_container -p 3000:80 \
   -e VITE_SUPABASE_URL=your_supabase_url \
   -e VITE_SUPABASE_ANON_KEY=your_supabase_anon_key \
   servicehub
 ```
+
 
 ## 📁 Структура проекта
 
