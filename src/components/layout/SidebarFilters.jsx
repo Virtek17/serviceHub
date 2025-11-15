@@ -21,7 +21,6 @@ export default function SidebarFilters({
   return (
     <aside className="w-80 bg-white dark:bg-[#1E1E1E] border-r border-[#E0E0E0] dark:border-[#404040] min-h-[calc(100vh-88px)]">
       <div className="p-6">
-        {/* Search */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-[#0D0D0D] dark:text-white mb-2">
             Поиск
@@ -40,7 +39,6 @@ export default function SidebarFilters({
           </div>
         </div>
 
-        {/* City */}
         <label className="block text-sm mb-2">Город</label>
         <select
           value={selectedCity}
@@ -53,7 +51,6 @@ export default function SidebarFilters({
           ))}
         </select>
 
-        {/* Category */}
         <label className="block text-sm mb-2">Категория</label>
         <select
           value={selectedCategory}
@@ -66,7 +63,6 @@ export default function SidebarFilters({
           ))}
         </select>
 
-        {/* Tags */}
         <label className="block text-sm mb-3">Теги услуг</label>
 
         <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto">

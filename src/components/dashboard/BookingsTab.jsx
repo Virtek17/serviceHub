@@ -59,13 +59,11 @@ export default function BookingsTab({ bookings, onUpdateStatus, loading }) {
 
   return (
     <div className="space-y-6">
-      {/* Header with filters */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <h2 className="text-2xl font-semibold text-[#0D0D0D] dark:text-white">
           Записи клиентов
         </h2>
 
-        {/* Filters */}
         <div className="flex gap-2">
           <button
             onClick={() => setFilter("all")}
@@ -110,7 +108,6 @@ export default function BookingsTab({ bookings, onUpdateStatus, loading }) {
         </div>
       </div>
 
-      {/* Bookings list */}
       {filteredBookings.length === 0 ? (
         <div className="text-center py-12">
           <Calendar
@@ -135,7 +132,6 @@ export default function BookingsTab({ bookings, onUpdateStatus, loading }) {
                 className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 border border-[#E0E0E0] dark:border-[#404040]"
               >
                 <div className="flex items-start justify-between gap-4 flex-wrap">
-                  {/* Booking info */}
                   <div className="flex-1 min-w-[200px]">
                     <div className="flex items-center gap-2 mb-2">
                       <h3 className="text-lg font-semibold text-[#0D0D0D] dark:text-white">
@@ -159,7 +155,6 @@ export default function BookingsTab({ bookings, onUpdateStatus, loading }) {
                     </p>
                   </div>
 
-                  {/* Actions */}
                   {booking.status === "confirmed" && (
                     <div className="flex gap-2">
                       <button

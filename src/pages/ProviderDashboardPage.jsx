@@ -46,7 +46,6 @@ export default function ProviderDashboardPage() {
     addCategory,
   } = usePerformerServicesFlat(id);
 
-  // Загружаем реальную статистику из БД
   const {
     stats,
     recentBookings,
@@ -54,7 +53,6 @@ export default function ProviderDashboardPage() {
     loading: statsLoading,
   } = useOverviewStats(id);
 
-  // Загружаем записи
   const {
     bookings,
     loading: bookingsLoading,
@@ -78,15 +76,12 @@ export default function ProviderDashboardPage() {
     { id: "analytics", label: "Аналитика", icon: TrendingUp },
   ];
 
-  // Функции управления слотами
   const handleAddSlot = async (formData) => {
     try {
       console.log("🔵 [1] Данные из формы:", formData);
 
-      // Формируем timestamp без конвертации в UTC (локальное время)
       const startTime = `${formData.date}T${formData.time}:00`;
 
-      // Вычисляем время окончания
       const [datePart, timePart] = startTime.split("T");
       const [hours, minutes] = timePart.split(":").map(Number);
 
@@ -121,10 +116,8 @@ export default function ProviderDashboardPage() {
 
   const handleEditSlot = async (slotId, formData) => {
     try {
-      // Формируем timestamp без конвертации в UTC (локальное время)
       const startTime = `${formData.date}T${formData.time}:00`;
 
-      // Вычисляем время окончания
       const [datePart, timePart] = startTime.split("T");
       const [hours, minutes] = timePart.split(":").map(Number);
 
@@ -258,7 +251,6 @@ export default function ProviderDashboardPage() {
 
       toast.success(`Запись отмечена ${statusLabels[newStatus]}!`);
 
-      // Обновляем статистику
       refetchBookings();
     } catch (err) {
       toast.error(`Ошибка: ${err.message}`);

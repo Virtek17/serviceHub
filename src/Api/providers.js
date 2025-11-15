@@ -1,4 +1,3 @@
-// src/api/providers.js
 import { supabase } from "../lib/createClient";
 
 export async function fetchProviders() {

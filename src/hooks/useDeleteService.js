@@ -1,4 +1,3 @@
-// src/hooks/useDeleteService.js
 import { useState, useCallback } from "react";
 import { deleteService } from "../Api/services";
 

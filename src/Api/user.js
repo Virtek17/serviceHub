@@ -1,4 +1,3 @@
-// src/api/user.js
 import { supabase } from "../lib/createClient";
 
 /**
@@ -26,13 +25,15 @@ export async function getUserIdByAuthId(authId) {
  * @returns {Promise<{authId: string, userId: number}>}
  */
 export async function getCurrentUser() {
-  const { data: { user }, error } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
   if (error || !user) {
     throw new Error("Пользователь не авторизован");
   }
 
-  // Получаем числовой ID из таблицы profiles
   const userId = await getUserIdByAuthId(user.id);
 
   return {

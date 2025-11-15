@@ -1,4 +1,3 @@
-// src/hooks/useTimeSlots.js
 import { useState, useEffect, useCallback } from "react";
 import {
   fetchSlots,
@@ -12,7 +11,6 @@ export function useTimeSlots(performerId) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Загрузка
   const load = useCallback(async () => {
     try {
       setLoading(true);
@@ -31,7 +29,6 @@ export function useTimeSlots(performerId) {
     load();
   }, [load]);
 
-  // Создание
   const addSlot = useCallback(async (slotData) => {
     console.log("🟡 [Hook-1] Получили данные:", slotData);
     const newSlot = await createSlot(slotData);
@@ -47,14 +44,12 @@ export function useTimeSlots(performerId) {
     return newSlot;
   }, []);
 
-  // Обновление
   const editSlot = useCallback(async (id, patch) => {
     const updated = await updateSlot(id, patch);
     setSlots((prev) => prev.map((slot) => (slot.id === id ? updated : slot)));
     return updated;
   }, []);
 
-  // Удаление
   const removeSlot = useCallback(async (id) => {
     await deleteSlot(id);
     setSlots((prev) => prev.filter((s) => s.id !== id));

@@ -23,13 +23,11 @@ export function useOverviewStats(performerId) {
         setLoading(true);
         setError(null);
 
-        // 1. Всего записей
         const { count: totalBookings } = await supabase
           .from("bookings")
           .select("*", { count: "exact", head: true })
           .eq("performer_id", performerId);
 
-        // 2. Записей за текущий месяц
         const now = new Date();
         const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
           .toISOString()
@@ -41,7 +39,6 @@ export function useOverviewStats(performerId) {
           .eq("performer_id", performerId)
           .gte("created_at", firstDayOfMonth);
 
-        // 3. Активных услуг
         const { count: activeServices } = await supabase
           .from("services")
           .select("service_categories!inner(performer_id)", {
@@ -50,21 +47,18 @@ export function useOverviewStats(performerId) {
           })
           .eq("service_categories.performer_id", performerId);
 
-        // 4. Свободных слотов
         const { count: availableSlots } = await supabase
           .from("time_slots")
           .select("*", { count: "exact", head: true })
           .eq("performer_id", performerId)
           .eq("is_available", true);
 
-        // 5. Выполненных услуг
         const { count: completedServices } = await supabase
           .from("bookings")
           .select("*", { count: "exact", head: true })
           .eq("performer_id", performerId)
           .eq("status", "completed");
 
-        // 6. Выручка за месяц (из завершённых записей)
         const { data: completedBookings } = await supabase
           .from("bookings")
           .select("service:services(price)")
@@ -86,7 +80,6 @@ export function useOverviewStats(performerId) {
           monthlyRevenue: monthlyRevenue || 0,
         });
 
-        // 7. Последние записи (5 шт)
         const { data: bookingsData } = await supabase
           .from("bookings")
           .select(
@@ -115,7 +108,6 @@ export function useOverviewStats(performerId) {
 
         setRecentBookings(formattedBookings);
 
-        // 8. Ближайшие слоты (5 шт)
         const today = new Date().toISOString();
 
         const { data: slotsData } = await supabase

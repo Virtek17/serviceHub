@@ -1,7 +1,6 @@
 import { MapPin, Star } from "lucide-react";
 
 export default function ProviderInfo({ provider }) {
-  // Получаем первую букву имени для аватарки
   const initial = provider.name ? provider.name.charAt(0).toUpperCase() : "?";
 
   return (

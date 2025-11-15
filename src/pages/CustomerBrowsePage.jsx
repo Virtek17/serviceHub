@@ -67,7 +67,6 @@ export default function CustomerBrowsePage() {
 
     const matchesCity = !selectedCity || provider.city === selectedCity;
 
-    // Временно отключено — категории не загружаются из БД
     const matchesCategory = true;
 
     const matchesTags =
@@ -127,11 +126,9 @@ export default function CustomerBrowsePage() {
                     className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 border border-[#E0E0E0] dark:border-[#404040] animate-pulse"
                   >
                     <div className="flex items-start flex-col md:flex-row gap-6">
-                      {/* Avatar skeleton */}
                       <div className="w-20 h-20 rounded-2xl bg-gray-200 dark:bg-gray-700"></div>
 
                       <div className="flex-1 space-y-4">
-                        {/* Header skeleton */}
                         <div className="flex items-start justify-between">
                           <div className="space-y-2">
                             <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-48"></div>

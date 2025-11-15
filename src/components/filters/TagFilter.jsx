@@ -10,7 +10,6 @@ export default function TagFilter({
         {label}
       </label>
 
-      {/* Выбранные теги */}
       {selectedTags.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-2">
           {selectedTags.map((tag) => (
@@ -26,7 +25,6 @@ export default function TagFilter({
         </div>
       )}
 
-      {/* Доступные теги */}
       <div className="flex flex-wrap gap-2 overflow-y-auto md:overflow-visible">
         {availableTags
           .filter((tag) => !selectedTags.includes(tag))

@@ -1,5 +1,3 @@
-// главная страница - выбор роли
-
 import { useEffect, useState } from "react";
 import { User, Store } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -61,7 +59,6 @@ export default function HomePage() {
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-[#F8F6F3] to-[#ECE9E5] dark:from-[#1A1A1A] dark:to-[#0F0F0F]">
-        {/* Header */}
         <header className="px-4 sm:px-6 py-4 sm:py-6">
           <div className="max-w-[1200px] mx-auto flex items-center justify-between">
             <div className="flex items-center space-x-3">

@@ -1,4 +1,3 @@
-// src/hooks/useProvider.js
 import { useState, useEffect } from "react";
 import { fetchProviderById } from "../Api/providerBuId";
 
@@ -29,10 +28,8 @@ export function useProviderById(providerId) {
 
   useEffect(() => {
     loadProvider();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [providerId]);
 
-  // Функция для обновления данных
   const refetch = () => {
     loadProvider();
   };

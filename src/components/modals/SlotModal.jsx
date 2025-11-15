@@ -23,7 +23,6 @@ export default function SlotModal({
         duration: slot.duration || 60,
       });
     } else {
-      // Для нового слота - текущая дата
       const today = new Date().toISOString().split("T")[0];
       setFormData({
         date: today,

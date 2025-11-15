@@ -63,7 +63,6 @@ export function useBookings(performerId) {
 
       if (updateError) throw updateError;
 
-      // Обновляем локальное состояние
       setBookings((prev) =>
         prev.map((booking) =>
           booking.id === bookingId ? { ...booking, status: newStatus } : booking

@@ -10,7 +10,6 @@ export default function ProviderCard({
   tags,
   priceFrom,
 }) {
-  // Получаем первую букву имени для аватарки
   const initial = name ? name.charAt(0).toUpperCase() : "?";
 
   return (

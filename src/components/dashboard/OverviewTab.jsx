@@ -6,7 +6,6 @@ import TimeSlotCard from "./TimeSlotCard";
 export default function OverviewTab({ stats, recentBookings, upcomingSlots }) {
   return (
     <div className="space-y-8">
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <StatCard
           icon={Calendar}
@@ -54,9 +53,7 @@ export default function OverviewTab({ stats, recentBookings, upcomingSlots }) {
         />
       </div>
 
-      {/* Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Recent Bookings */}
         <div className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 border border-[#E0E0E0] dark:border-[#404040]">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-[#0D0D0D] dark:text-white">
@@ -74,7 +71,6 @@ export default function OverviewTab({ stats, recentBookings, upcomingSlots }) {
           </div>
         </div>
 
-        {/* Upcoming Schedule */}
         <div className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 border border-[#E0E0E0] dark:border-[#404040]">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-[#0D0D0D] dark:text-white">

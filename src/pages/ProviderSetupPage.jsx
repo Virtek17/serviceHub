@@ -1,5 +1,3 @@
-// Регистрация исполнителя
-
 import { useState } from "react";
 import { ArrowLeft, Plus, X, User, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -13,14 +11,12 @@ export default function ProviderSetupPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 2;
 
-  // Form state
   const [bio, setBio] = useState("");
   const [city, setCity] = useState("");
   const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // UI state
   const [newTag, setNewTag] = useState("");
 
   const predefinedTags = [
@@ -56,15 +52,12 @@ export default function ProviderSetupPage() {
       setLoading(true);
       setError(null);
 
-      // Обновляем город в profiles если указан
       if (city && city !== user.city) {
         await updateProfile({ city });
       }
 
-      // Создаём профиль исполнителя
       await becomeProvider(bio);
 
-      // Добавляем теги
       if (tags.length > 0) {
         const tagInserts = tags.map((tag) => ({
           performer_id: user.id,
@@ -78,7 +71,6 @@ export default function ProviderSetupPage() {
         if (tagsError) throw tagsError;
       }
 
-      // Перенаправляем на дашборд
       navigate("/provider/dashboard");
     } catch (err) {
       console.error("Ошибка регистрации исполнителя:", err);
@@ -103,7 +95,6 @@ export default function ProviderSetupPage() {
       </div>
 
       <div className="space-y-6">
-        {/* Name (read-only) */}
         <div>
           <label className="block text-sm font-medium text-[#0D0D0D] dark:text-white mb-2">
             Ваше имя
@@ -119,7 +110,6 @@ export default function ProviderSetupPage() {
           </p>
         </div>
 
-        {/* City */}
         <div>
           <label className="block text-sm font-medium text-[#0D0D0D] dark:text-white mb-2">
             Город
@@ -133,7 +123,6 @@ export default function ProviderSetupPage() {
           />
         </div>
 
-        {/* Bio */}
         <div>
           <label className="block text-sm font-medium text-[#0D0D0D] dark:text-white mb-2">
             О себе
@@ -168,7 +157,6 @@ export default function ProviderSetupPage() {
       </div>
 
       <div>
-        {/* Selected Tags */}
         {tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-4">
             {tags.map((tag) => (
@@ -188,7 +176,6 @@ export default function ProviderSetupPage() {
           </div>
         )}
 
-        {/* Add custom tag */}
         <div className="flex gap-2 mb-4">
           <input
             type="text"
@@ -206,7 +193,6 @@ export default function ProviderSetupPage() {
           </button>
         </div>
 
-        {/* Predefined Tags */}
         <div className="flex flex-wrap gap-2">
           {predefinedTags
             .filter((tag) => !tags.includes(tag))
@@ -270,7 +256,6 @@ export default function ProviderSetupPage() {
       />
 
       <div className="min-h-screen bg-gradient-to-br from-[#F8F6F3] to-[#ECE9E5] dark:from-[#1A1A1A] dark:to-[#0F0F0F]">
-        {/* Header */}
         <header className="px-6 py-6">
           <div className="max-w-[800px] mx-auto flex items-center justify-between">
             <button
@@ -305,7 +290,6 @@ export default function ProviderSetupPage() {
           </div>
         </header>
 
-        {/* Progress Bar */}
         <div className="px-6 mb-8">
           <div className="max-w-[800px] mx-auto">
             <div className="flex items-center justify-between mb-2">
@@ -325,7 +309,6 @@ export default function ProviderSetupPage() {
           </div>
         </div>
 
-        {/* Main Content */}
         <main className="px-6 pb-12">
           <div className="max-w-[800px] mx-auto">
             <div className="bg-white dark:bg-[#1E1E1E] rounded-3xl p-6 md:p-8 shadow-lg">
@@ -337,7 +320,6 @@ export default function ProviderSetupPage() {
 
               {renderCurrentStep()}
 
-              {/* Navigation */}
               <div className="flex justify-between mt-12 pt-8 border-t border-[#E0E0E0] dark:border-[#404040]">
                 <button
                   onClick={handleBack}
@@ -350,16 +332,17 @@ export default function ProviderSetupPage() {
                 <button
                   onClick={handleNext}
                   disabled={!isStepValid() || loading}
-                  className={`px-6 py-3 rounded-2xl text-white transition-colors ${isStepValid() && !loading
+                  className={`px-6 py-3 rounded-2xl text-white transition-colors ${
+                    isStepValid() && !loading
                       ? "bg-gradient-to-r from-[#FF8D64] to-[#FF642D] hover:from-[#FF6F3C] hover:to-[#FF4300] transition-colors duration-300 cursor-pointer"
                       : "bg-[#C0C0C0] dark:bg-[#404040] cursor-not-allow"
-                    }`}
+                  }`}
                 >
                   {loading
                     ? "Сохранение..."
                     : currentStep === totalSteps
-                      ? "Завершить"
-                      : "Далее"}
+                    ? "Завершить"
+                    : "Далее"}
                 </button>
               </div>
             </div>

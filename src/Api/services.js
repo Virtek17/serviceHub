@@ -1,9 +1,7 @@
-// src/api/services.js
 import { supabase } from "../lib/createClient";
 
 export async function fetchPerformerServicesFlat(performerId) {
   try {
-    // 1. Сначала достаём категории мастера
     const { data: categories, error: catError } = await supabase
       .from("service_categories")
       .select("id, name")
@@ -14,7 +12,6 @@ export async function fetchPerformerServicesFlat(performerId) {
 
     const categoryIds = categories.map((c) => c.id);
 
-    // 2. Достаём все услуги по этим категориям
     const { data: services, error: servError } = await supabase
       .from("services")
       .select("id, name, description, price, duration_minutes, category_id")
@@ -23,7 +20,6 @@ export async function fetchPerformerServicesFlat(performerId) {
 
     if (servError) throw servError;
 
-    // 3. Склеиваем с названиями категорий
     const categoriesById = Object.fromEntries(
       categories.map((c) => [c.id, c.name])
     );
@@ -93,7 +89,6 @@ export async function createService(serviceData) {
 
     if (error) throw error;
 
-    // Приводим к нужной структуре для твоего UI
     return {
       id: data.id,
       name: data.name,

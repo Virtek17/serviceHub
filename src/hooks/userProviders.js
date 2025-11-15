@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchProviders } from "../Api/providers";
 
-// хук для загрузка мастеров
 export function useProviders() {
   const [providers, setProviders] = useState([]);
   const [loading, setLoading] = useState(true);

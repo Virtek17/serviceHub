@@ -18,7 +18,6 @@ export default function AddServiceModal({
 
   useEffect(() => {
     if (isOpen) {
-      // Сбрасываем форму при открытии
       setFormData({
         name: "",
         description: "",

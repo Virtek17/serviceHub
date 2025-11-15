@@ -1,11 +1,9 @@
 @import "tailwindcss";
 
-/* FullCalendar Стилизация */
 .fc {
   font-family: inherit;
 }
 
-/* Заголовок календаря */
 .fc-toolbar-title {
   color: white !important;
   font-size: 1.5rem !important;
@@ -16,7 +14,6 @@
   color: white !important;
 }
 
-/* Кнопки навигации */
 .fc-button {
   background: #ff6f3c !important;
   border: none !important;

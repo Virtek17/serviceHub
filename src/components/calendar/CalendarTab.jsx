@@ -8,7 +8,6 @@ import ruLocale from "@fullcalendar/core/locales/ru";
 import { Plus } from "lucide-react";
 import SlotModal from "../modals/SlotModal";
 
-// TODO: не правильно показывает время, делает +5
 export default function CalendarTab({
   slots,
   onAddSlot,
@@ -20,7 +19,6 @@ export default function CalendarTab({
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDateClick = (info) => {
-    // Открываем модалку для создания нового слота с выбранной датой
     setSelectedSlot({
       date: info.dateStr,
       time: "10:00",
@@ -30,15 +28,13 @@ export default function CalendarTab({
   };
 
   const handleEventClick = (info) => {
-    // Находим слот по ID из extendedProps
     const slotId = info.event.extendedProps.slotId;
     const slot = slots.find((s) => s.id === slotId);
 
     if (slot) {
-      // Преобразуем формат API в формат формы
       const startDate = new Date(slot.start);
       const endDate = new Date(slot.end);
-      const duration = Math.round((endDate - startDate) / 60000); // в минутах
+      const duration = Math.round((endDate - startDate) / 60000);
 
       setSelectedSlot({
         id: slot.id,
@@ -55,10 +51,8 @@ export default function CalendarTab({
     setIsLoading(true);
     try {
       if (selectedSlot?.id) {
-        // Редактирование существующего слота
         await onEditSlot(selectedSlot.id, formData);
       } else {
-        // Создание нового слота
         await onAddSlot(formData);
       }
       setShowModal(false);
@@ -83,7 +77,6 @@ export default function CalendarTab({
     }
   };
 
-  // Преобразуем слоты из API в события для календаря
   const events = slots.map((slot) => {
     console.log("🟣 [Calendar] Преобразуем слот для отображения:", {
       id: slot.id,

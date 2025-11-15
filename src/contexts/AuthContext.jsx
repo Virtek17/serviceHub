@@ -10,7 +10,6 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Инициализация при загрузке приложения
   useEffect(() => {
     initializeUser();
   }, []);
@@ -20,7 +19,6 @@ export function AuthProvider({ children }) {
       setLoading(true);
       setError(null);
 
-      // Получаем данные из MAX WebApp
       const wa = window.WebApp;
       if (!wa || !wa.initDataUnsafe?.user) {
         throw new Error("MAX WebApp не инициализирован");
@@ -29,13 +27,11 @@ export function AuthProvider({ children }) {
       const maxUser = wa.initDataUnsafe.user;
       const userId = maxUser.id;
 
-      // Получаем URL фото профиля если есть
       let photoUrl = null;
       if (maxUser.photo_url) {
         photoUrl = maxUser.photo_url;
       }
 
-      // Проверяем есть ли пользователь в БД
       const { data: profile, error: fetchError } = await supabase
         .from("profiles")
         .select(
@@ -51,11 +47,9 @@ export function AuthProvider({ children }) {
         .single();
 
       if (fetchError && fetchError.code !== "PGRST116") {
-        // PGRST116 = not found
         throw fetchError;
       }
 
-      // Если пользователя нет - создаём
       if (!profile) {
         const fullName = `${maxUser.first_name} ${
           maxUser.last_name || ""
@@ -78,7 +72,6 @@ export function AuthProvider({ children }) {
         setIsProvider(false);
         setPerformerProfile(null);
       } else {
-        // Пользователь существует - обновляем фото если изменилось
         if (profile.photo_url !== photoUrl) {
           const { error: updateError } = await supabase
             .from("profiles")
@@ -102,7 +95,6 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // Обновление профиля
   const updateProfile = async (updates) => {
     try {
       const { data, error } = await supabase
@@ -122,7 +114,6 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // Стать исполнителем
   const becomeProvider = async (bio) => {
     try {
       const { data, error } = await supabase
@@ -145,7 +136,6 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // Обновление профиля исполнителя
   const updatePerformerProfile = async (updates) => {
     try {
       const { data, error } = await supabase

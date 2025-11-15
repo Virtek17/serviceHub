@@ -1,4 +1,3 @@
-// src/hooks/usePerformerServicesFlat.js
 import { useEffect, useState, useCallback } from "react";
 import {
   fetchPerformerServicesFlat,
@@ -13,7 +12,6 @@ export function usePerformerServicesFlat(performerId) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Загрузка категорий
   useEffect(() => {
     if (!performerId) return;
     let cancelled = false;
@@ -33,7 +31,6 @@ export function usePerformerServicesFlat(performerId) {
     };
   }, [performerId]);
 
-  // Загрузка всех услуг
   useEffect(() => {
     if (!performerId) return;
     let cancelled = false;
@@ -55,12 +52,10 @@ export function usePerformerServicesFlat(performerId) {
     };
   }, [performerId]);
 
-  // Функция обновления услуги
   const editService = useCallback(async (serviceId, updates) => {
     try {
       await updateService(serviceId, updates);
 
-      // Обновляем локальное состояние
       setServices((prev) =>
         prev.map((s) =>
           s.id === serviceId
@@ -80,12 +75,10 @@ export function usePerformerServicesFlat(performerId) {
     }
   }, []);
 
-  // Функция добавления услуги
   const addService = useCallback(async (serviceData) => {
     try {
       const newService = await createService(serviceData);
 
-      // Добавляем в локальное состояние
       setServices((prev) => [...prev, newService]);
 
       return newService;
@@ -95,7 +88,6 @@ export function usePerformerServicesFlat(performerId) {
     }
   }, []);
 
-  // Функция добавления категории
   const addCategory = useCallback(
     async (categoryData) => {
       try {
@@ -111,7 +103,6 @@ export function usePerformerServicesFlat(performerId) {
 
         if (insertError) throw insertError;
 
-        // Добавляем в локальное состояние
         setCategories((prev) => [...prev, data]);
 
         return data;
