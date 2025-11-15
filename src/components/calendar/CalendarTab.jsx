@@ -117,7 +117,7 @@ export default function CalendarTab({
         </button>
       </div>
 
-      <div className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-4 md:p-6 border border-[#E0E0E0] dark:border-[#404040]">
+      <div className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-4 md:p-6 border border-[#E0E0E0] dark:border-[#404040] flex-wrap">
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           locale={ruLocale}
