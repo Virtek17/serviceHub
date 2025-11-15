@@ -63,7 +63,7 @@ export default function AddServiceModal({
             <select
               value={formData.category_id}
               onChange={(e) => handleChange("category_id", e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8B70F6] focus:border-transparent"
+              className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6F3C] focus:border-transparent"
               required
               disabled={categories.length === 0}
             >
@@ -78,7 +78,7 @@ export default function AddServiceModal({
               )}
             </select>
             {categories.length === 0 && (
-              <p className="text-xs text-[#FF6B9D] mt-1">
+              <p className="text-xs text-[#FF6F3C] mt-1">
                 Сначала создайте категорию, нажав кнопку "Категория"
               </p>
             )}
@@ -92,7 +92,7 @@ export default function AddServiceModal({
               type="text"
               value={formData.name}
               onChange={(e) => handleChange("name", e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8B70F6] focus:border-transparent"
+              className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6F3C] focus:border-transparent"
               placeholder="Например: Классический маникюр"
               required
             />
@@ -106,7 +106,7 @@ export default function AddServiceModal({
               value={formData.description}
               onChange={(e) => handleChange("description", e.target.value)}
               rows={3}
-              className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8B70F6] focus:border-transparent resize-none"
+              className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6F3C] focus:border-transparent resize-none"
               placeholder="Краткое описание услуги..."
             />
           </div>
@@ -120,7 +120,7 @@ export default function AddServiceModal({
                 type="number"
                 value={formData.price}
                 onChange={(e) => handleChange("price", e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8B70F6] focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6F3C] focus:border-transparent"
                 placeholder="1200"
                 min="0"
                 required
@@ -135,7 +135,7 @@ export default function AddServiceModal({
                 type="number"
                 value={formData.duration}
                 onChange={(e) => handleChange("duration", e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8B70F6] focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6F3C] focus:border-transparent"
                 placeholder="60"
                 min="0"
                 required
@@ -157,7 +157,7 @@ export default function AddServiceModal({
               className={`flex-1 py-3 rounded-xl text-white ${
                 isLoading || categories.length === 0
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[#8B70F6] hover:bg-[#7E64F2]"
+                  : "bg-[#FF6F3C] hover:bg-[#7E64F2]"
               }`}
             >
               {isLoading ? "Добавление..." : "Добавить"}

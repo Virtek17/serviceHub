@@ -3,14 +3,14 @@ import { Clock, DollarSign } from "lucide-react";
 export default function ServiceItem({ service, onSelect }) {
   return (
     <div
-      className="p-4 rounded-2xl border border-[#E0E0E0] dark:border-[#404040] hover:border-[#FF6B9D] dark:hover:border-[#FF8FB3] transition-colors cursor-pointer"
+      className="p-4 rounded-2xl border border-[#E0E0E0] dark:border-[#404040] hover:border-[#FF4300] dark:hover:border-[#FF4300] transition-colors cursor-pointer"
       onClick={() => onSelect(service)}
     >
       <div className="flex items-start justify-between mb-2">
         <h4 className="font-medium text-[#0D0D0D] dark:text-white">
           {service.name}
         </h4>
-        <button className="px-3 py-1 bg-[#FF6B9D] text-white rounded-xl text-sm hover:bg-[#F55C91] transition-colors">
+        <button className="px-3 py-1 bg-[#FF6F3C] text-white rounded-xl text-sm hover:bg-[#FF4300] transition-colors">
           Записаться
         </button>
       </div>

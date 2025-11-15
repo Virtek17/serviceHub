@@ -17,14 +17,14 @@ export default function ServicesTab({
         <div className="flex gap-3">
           <button
             onClick={onAddCategory}
-            className="px-4 py-2 bg-[#FF6B9D] text-white rounded-xl hover:bg-[#F55C91] transition-colors flex items-center gap-2"
+            className="px-4 py-2 bg-[#FF6F3C] text-white rounded-xl hover:bg-[#F55C91] transition-colors flex items-center gap-2"
           >
             <FolderPlus size={20} />
             <span className="hidden sm:inline">Категория</span>
           </button>
           <button
             onClick={onAddService}
-            className="px-4 py-2 bg-[#8B70F6] text-white rounded-xl hover:bg-[#7E64F2] transition-colors flex items-center gap-2"
+            className="px-4 py-2 bg-[#FF6F3C] text-white rounded-xl hover:bg-[#7E64F2] transition-colors flex items-center gap-2"
           >
             <Plus size={20} />
             <span className="hidden sm:inline">Услуга</span>

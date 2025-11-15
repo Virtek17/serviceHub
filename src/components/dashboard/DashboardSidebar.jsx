@@ -37,7 +37,7 @@ export default function DashboardSidebar({
               }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors text-left ${
                 activeTab === tab.id
-                  ? "bg-[#8B70F6] text-white"
+                  ? "bg-[#FF6F3C] text-white"
                   : "text-[#666666] dark:text-[#AAAAAA] hover:bg-[#F8F6F3] dark:hover:bg-[#262626] hover:text-[#0D0D0D] dark:hover:text-white"
               }`}
             >

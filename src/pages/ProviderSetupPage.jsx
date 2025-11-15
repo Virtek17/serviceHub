@@ -91,7 +91,7 @@ export default function ProviderSetupPage() {
   const renderStep1 = () => (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <div className="w-16 h-16 bg-gradient-to-br from-[#8B70F6] to-[#9D7DFF] rounded-2xl flex items-center justify-center mb-4 mx-auto">
+        <div className="w-16 h-16 bg-gradient-to-br from-[#FF6F3C] to-[#FF6F3C] rounded-2xl flex items-center justify-center mb-4 mx-auto">
           <User size={28} className="text-white" strokeWidth={1.5} />
         </div>
         <h2 className="text-3xl font-semibold text-[#0D0D0D] dark:text-white mb-3">
@@ -128,7 +128,7 @@ export default function ProviderSetupPage() {
             type="text"
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            className="w-full px-4 py-3 rounded-2xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#1E1E1E] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8B70F6] focus:border-transparent"
+            className="w-full px-4 py-3 rounded-2xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#1E1E1E] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6F3C] focus:border-transparent"
             placeholder="Ваш город"
           />
         </div>
@@ -147,7 +147,7 @@ export default function ProviderSetupPage() {
               value={bio}
               onChange={(e) => setBio(e.target.value)}
               rows={4}
-              className="w-full pl-12 pr-4 py-3 rounded-2xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#1E1E1E] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8B70F6] focus:border-transparent resize-none"
+              className="w-full pl-12 pr-4 py-3 rounded-2xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#1E1E1E] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6F3C] focus:border-transparent resize-none"
               placeholder="Расскажите о себе и ваших услугах..."
             />
           </div>
@@ -174,7 +174,7 @@ export default function ProviderSetupPage() {
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center px-3 py-1.5 rounded-full text-sm bg-[#8B70F6] text-white"
+                className="inline-flex items-center px-3 py-1.5 rounded-full text-sm bg-[#FF6F3C] text-white"
               >
                 {tag}
                 <button
@@ -195,12 +195,12 @@ export default function ProviderSetupPage() {
             value={newTag}
             onChange={(e) => setNewTag(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && handleAddTag(newTag)}
-            className="flex-1 px-4 py-2 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#1E1E1E] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8B70F6] focus:border-transparent"
+            className="flex-1 px-4 py-2 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#1E1E1E] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6F3C] focus:border-transparent"
             placeholder="Добавить свой тег"
           />
           <button
             onClick={() => handleAddTag(newTag)}
-            className="px-4 py-2 bg-[#8B70F6] text-white rounded-xl hover:bg-[#7E64F2] transition-colors"
+            className="px-4 py-2 bg-[#FF6F3C] text-white rounded-xl hover:bg-[#FF4300] transition-colors duration-300 cursor-pointer"
           >
             <Plus size={20} />
           </button>
@@ -214,7 +214,7 @@ export default function ProviderSetupPage() {
               <button
                 key={tag}
                 onClick={() => handleAddTag(tag)}
-                className="px-3 py-1.5 rounded-full text-sm border border-[#E0E0E0] dark:border-[#404040] text-[#666666] dark:text-[#AAAAAA] hover:border-[#8B70F6] hover:text-[#8B70F6] transition-colors"
+                className="px-3 py-1.5 rounded-full text-sm border border-[#E0E0E0] dark:border-[#404040] text-[#666666] dark:text-[#AAAAAA] hover:border-[#FF6F3C] hover:text-[#FF6F3C] transition-colors duration-300 cursor-pointer"
               >
                 {tag}
               </button>
@@ -318,7 +318,7 @@ export default function ProviderSetupPage() {
             </div>
             <div className="w-full bg-[#E0E0E0] dark:bg-[#404040] rounded-full h-2">
               <div
-                className="bg-gradient-to-r from-[#8B70F6] to-[#9D7DFF] h-2 rounded-full transition-all duration-300"
+                className="bg-gradient-to-r from-[#FF6F3C] to-[#FF4300] h-2 rounded-full transition-all duration-300"
                 style={{ width: `${(currentStep / totalSteps) * 100}%` }}
               ></div>
             </div>
@@ -342,7 +342,7 @@ export default function ProviderSetupPage() {
                 <button
                   onClick={handleBack}
                   disabled={loading}
-                  className="px-6 py-3 rounded-2xl border border-[#E0E0E0] dark:border-[#404040] text-[#666666] dark:text-[#AAAAAA] hover:border-[#C0C0C0] dark:hover:border-[#606060] transition-colors disabled:opacity-50"
+                  className="px-6 py-3 rounded-2xl border border-[#E0E0E0] dark:border-[#404040] text-[#666666] dark:text-[#AAAAAA] hover:border-[#FF6F3C] dark:hover:border-[#FF6F3C] transition-colors disabled:opacity-50 cursor-pointer"
                 >
                   {currentStep === 1 ? "На главную" : "Назад"}
                 </button>
@@ -350,17 +350,16 @@ export default function ProviderSetupPage() {
                 <button
                   onClick={handleNext}
                   disabled={!isStepValid() || loading}
-                  className={`px-6 py-3 rounded-2xl text-white transition-colors ${
-                    isStepValid() && !loading
-                      ? "bg-gradient-to-r from-[#8B70F6] to-[#9D7DFF] hover:from-[#7E64F2] hover:to-[#8B70F6]"
-                      : "bg-[#C0C0C0] dark:bg-[#404040] cursor-not-allowed"
-                  }`}
+                  className={`px-6 py-3 rounded-2xl text-white transition-colors ${isStepValid() && !loading
+                      ? "bg-gradient-to-r from-[#FF8D64] to-[#FF642D] hover:from-[#FF6F3C] hover:to-[#FF4300] transition-colors duration-300 cursor-pointer"
+                      : "bg-[#C0C0C0] dark:bg-[#404040] cursor-not-allow"
+                    }`}
                 >
                   {loading
                     ? "Сохранение..."
                     : currentStep === totalSteps
-                    ? "Завершить"
-                    : "Далее"}
+                      ? "Завершить"
+                      : "Далее"}
                 </button>
               </div>
             </div>

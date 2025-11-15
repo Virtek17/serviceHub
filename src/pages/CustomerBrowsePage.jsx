@@ -106,7 +106,7 @@ export default function CustomerBrowsePage() {
             <div className="mb-8">
               <h1
                 className="text-3xl font-semibold text-[#0D0D0D] dark:text-white mb-3"
-                style={{ fontFamily: "Instrument Serif, serif" }}
+                style={{ fontFamily: "Roboto, sans-serif", }}
               >
                 Найти мастера
               </h1>

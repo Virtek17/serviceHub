@@ -16,7 +16,7 @@ export default function TagFilter({
           {selectedTags.map((tag) => (
             <span
               key={tag}
-              className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[#FF6B9D] text-white cursor-pointer"
+              className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[#FF6F3C] text-white cursor-pointer"
               onClick={() => onToggle(tag)}
             >
               {tag}
@@ -34,7 +34,7 @@ export default function TagFilter({
             <button
               key={tag}
               onClick={() => onToggle(tag)}
-              className="px-3 py-1 rounded-full text-sm border border-[#E0E0E0] dark:border-[#404040] text-[#666666] dark:text-[#AAAAAA] hover:border-[#FF6B9D] hover:text-[#FF6B9D] transition-colors"
+              className="px-3 py-1 rounded-full text-sm border border-[#FF6F3C] dark:border-[#FF6F3C] text-[#FF6F3C] dark:text-[#FF6F3C] hover:border-[#FF4300] hover:text-[#FF4300] transition-colors delay-300s"
             >
               {tag}
             </button>

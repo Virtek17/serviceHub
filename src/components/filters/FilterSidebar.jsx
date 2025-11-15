@@ -26,18 +26,19 @@ export default function FilterSidebar({
           </h2>
           <button
             onClick={onReset}
-            className="text-sm text-[#8B70F6] hover:text-[#7E64F2]"
+            className="text-sm text-[#FF6F3C] hover:text-[#FF4300] transition-colors duration-300 cursor-pointer"
           >
             Сбросить
           </button>
         </div>
 
         {/* Контент фильтров */}
-        <div className="flex flex-col flex-1 space-y-6 overflow-hidden">
+        <div className="flex flex-col flex-1 space-y-6 overflow-hidden" style={{ padding: "0.2em" }}>
           <SearchInput
             value={searchTerm}
             onChange={onSearchChange}
             placeholder="Поиск по имени или описанию"
+            
           />
 
           <SelectFilter

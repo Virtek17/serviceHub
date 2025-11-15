@@ -3,13 +3,13 @@ import { User, Store } from "lucide-react";
 const RoleCard = ({ role, title, description, features, handleRoleSelect }) => {
   return (
     <div
-      className="group relative p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#1E1E1E] hover:bg-[#FAFAFA] dark:hover:bg-[#262626] transition-all duration-200 cursor-pointer hover:border-[#8B70F6] dark:hover:border-[#FF6F3C] hover:shadow-lg"
+      className="group relative p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#1E1E1E] hover:bg-[#FAFAFA] dark:hover:bg-[#262626] transition-all duration-200 cursor-pointer hover:border-[#FF6F3C] dark:hover:border-[#FF6F3C] hover:shadow-lg"
       onClick={handleRoleSelect}
     >
       {/* Icon */}
       <div
         className={`w-12 h-12 sm:w-16 sm:h-16  ${
-          role === "provider" ? "bg-[#9779FC]" : "bg-[#FF82AB]"
+          role === "provider" ? "bg-[#FF6F3C]" : "bg-[#FF6F3C]"
         } rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 mx-auto group-hover:scale-105 transition-transform duration-200`}
       >
         {role === "provider" ? (
@@ -60,7 +60,7 @@ const RoleCard = ({ role, title, description, features, handleRoleSelect }) => {
           <li className="flex items-center" key={index}>
             <div
               className={`w-1.5 h-1.5 ${
-                role === "provider" ? "bg-[#8B70F6]" : "bg-[#FF6B9D]"
+                role === "provider" ? "bg-[#FF6F3C]" : "bg-[#FF6F3C]"
               }  rounded-full mr-2 sm:mr-3`}
             ></div>
             {feature}

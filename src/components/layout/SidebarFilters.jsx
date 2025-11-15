@@ -76,7 +76,7 @@ export default function SidebarFilters({
               onClick={() => toggleTag(tag)}
               className={`px-3 py-1 rounded-full text-xs border ${
                 selectedTags.includes(tag)
-                  ? "bg-[#FF6B9D] text-white border-transparent"
+                  ? "bg-[#FF6F3C] text-white border-transparent"
                   : "border-[#E0E0E0] text-[#666666]"
               }`}
             >

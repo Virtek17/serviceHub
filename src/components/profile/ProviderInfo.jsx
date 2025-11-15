@@ -14,7 +14,7 @@ export default function ProviderInfo({ provider }) {
             className="w-32 h-32 rounded-3xl object-cover"
           />
         ) : (
-          <div className="w-32 h-32 rounded-3xl bg-gradient-to-br from-[#8B70F6] to-[#9D7DFF] flex items-center justify-center">
+          <div className="w-32 h-32 rounded-3xl bg-gradient-to-br from-[#FF6F3C] to-[#FF4300] flex items-center justify-center">
             <span className="text-5xl font-semibold text-white">{initial}</span>
           </div>
         )}
@@ -33,7 +33,7 @@ export default function ProviderInfo({ provider }) {
               <span>{provider.city}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Star size={20} className="fill-[#F59E0B] text-[#F59E0B]" />
+              <Star size={20} className="fill-[#FF4300] text-[#F59E0B]" />
               <span className="text-[#0D0D0D] dark:text-white font-semibold">
                 {provider.rating}
               </span>
@@ -51,7 +51,7 @@ export default function ProviderInfo({ provider }) {
             {provider.tags.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-1.5 rounded-full text-sm bg-[#FF6B9D]/10 text-[#FF6B9D] border border-[#FF6B9D]/20"
+                className="px-3 py-1.5 rounded-full text-sm bg-[#FF6F3C]/10 text-[#FF6F3C] border border-[#FFF6F3C]/20"
               >
                 #{tag}
               </span>

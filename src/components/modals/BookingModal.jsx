@@ -59,8 +59,8 @@ export default function BookingModal({
                       onClick={() => onSlotSelect(slot)}
                       className={`p-3 rounded-xl border text-sm transition-colors ${
                         selectedSlot === slot
-                          ? "border-[#FF6B9D] bg-[#FF6B9D] text-white"
-                          : "border-[#E0E0E0] dark:border-[#404040] text-[#0D0D0D] dark:text-white hover:border-[#FF6B9D]"
+                          ? "border-[#FF6F3C] bg-[#FF6F3C] text-white"
+                          : "border-[#E0E0E0] dark:border-[#404040] text-[#0D0D0D] dark:text-white hover:border-[#FF6F3C]"
                       }`}
                     >
                       {slot.date} в {slot.time}
@@ -81,7 +81,7 @@ export default function BookingModal({
                 disabled={!selectedSlot || isLoading}
                 className={`flex-1 py-2 rounded-xl text-white ${
                   selectedSlot && !isLoading
-                    ? "bg-[#FF6B9D] hover:bg-[#F55C91]"
+                    ? "bg-[#FF6F3C] hover:bg-[#F55C91]"
                     : "bg-gray-400 cursor-not-allowed"
                 }`}
               >

@@ -13,14 +13,14 @@ export default function OverviewTab({ stats, recentBookings, upcomingSlots }) {
           value={stats.totalBookings}
           label="Записей всего"
           trend="+12%"
-          gradient="from-[#8B70F6] to-[#9D7DFF]"
+          gradient="from-[#FF6F3C] to-[#9D7DFF]"
         />
         <StatCard
           icon={DollarSign}
           value={`${stats.monthlyRevenue.toLocaleString()} ₽`}
           label="Выручка за месяц"
           trend="+8%"
-          gradient="from-[#FF6B9D] to-[#FF8FB3]"
+          gradient="from-[#FF6F3C] to-[#FF8FB3]"
         />
         <StatCard
           icon={Clock}
@@ -44,7 +44,7 @@ export default function OverviewTab({ stats, recentBookings, upcomingSlots }) {
             <h3 className="text-lg font-semibold text-[#0D0D0D] dark:text-white">
               Последние записи
             </h3>
-            <button className="text-[#8B70F6] hover:text-[#7E64F2] text-sm font-medium">
+            <button className="text-[#FF6F3C] hover:text-[#7E64F2] text-sm font-medium">
               Показать все
             </button>
           </div>
@@ -62,7 +62,7 @@ export default function OverviewTab({ stats, recentBookings, upcomingSlots }) {
             <h3 className="text-lg font-semibold text-[#0D0D0D] dark:text-white">
               Ближайшие слоты
             </h3>
-            <button className="text-[#8B70F6] hover:text-[#7E64F2] text-sm font-medium">
+            <button className="text-[#FF6F3C] hover:text-[#7E64F2] text-sm font-medium">
               Настроить
             </button>
           </div>

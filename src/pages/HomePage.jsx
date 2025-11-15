@@ -99,7 +99,7 @@ export default function HomePage() {
             <h1
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight text-[#0D0D0D] dark:text-white mb-4 sm:mb-6 max-w-4xl mx-auto"
               style={{
-                fontFamily: "'Rubik 80s Fade', sans-serif",
+                fontFamily: "'Roboto', sans-serif",
                 fontWeight: "600",
                 letterSpacing: "0.02em",
               }}

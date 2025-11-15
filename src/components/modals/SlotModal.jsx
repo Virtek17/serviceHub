@@ -74,7 +74,7 @@ export default function SlotModal({
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, date: e.target.value }))
               }
-              className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B9D] focus:border-transparent"
+              className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6F3C] focus:border-transparent"
               required
             />
           </div>
@@ -89,7 +89,7 @@ export default function SlotModal({
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, time: e.target.value }))
               }
-              className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B9D] focus:border-transparent"
+              className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6F3C] focus:border-transparent"
               required
             />
           </div>
@@ -106,7 +106,7 @@ export default function SlotModal({
                   duration: Number(e.target.value),
                 }))
               }
-              className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B9D] focus:border-transparent"
+              className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6F3C] focus:border-transparent"
             >
               <option value={30}>30 минут</option>
               <option value={60}>1 час</option>
@@ -162,7 +162,7 @@ export default function SlotModal({
               className={`flex-1 py-3 rounded-xl text-white ${
                 isLoading
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[#FF6B9D] hover:bg-[#F55C91]"
+                  : "bg-[#FF6F3C] hover:bg-[#F55C91]"
               }`}
             >
               {isLoading ? "Сохранение..." : "Сохранить"}

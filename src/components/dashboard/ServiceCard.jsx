@@ -5,7 +5,7 @@ export default function ServiceCard({ service, onEdit, onDelete }) {
     <div className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 border border-[#E0E0E0] dark:border-[#404040]">
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
-          <span className="text-xs text-[#8B70F6] bg-[#8B70F6]/10 px-2 py-1 rounded-full">
+          <span className="text-xs text-[#FF6F3C] bg-[#FF6F3C]/10 px-2 py-1 rounded-full">
             {service.category}
           </span>
           <h3 className="text-lg font-semibold text-[#0D0D0D] dark:text-white mt-2">

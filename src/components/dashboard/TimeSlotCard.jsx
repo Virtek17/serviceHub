@@ -15,7 +15,7 @@ export default function TimeSlotCard({ slot }) {
         className={`text-xs px-2 py-1 rounded-full ${
           slot.available
             ? "bg-[#10B981]/10 text-[#10B981]"
-            : "bg-[#8B70F6]/10 text-[#8B70F6]"
+            : "bg-[#FF6F3C]/10 text-[#FF6F3C]"
         }`}
       >
         {slot.available ? "Свободен" : "Занят"}

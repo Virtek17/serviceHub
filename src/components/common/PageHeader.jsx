@@ -49,7 +49,7 @@ export default function PageHeader({
                   className="w-10 h-10 rounded-xl object-cover"
                 />
               ) : (
-                <div className="w-10 h-10 bg-gradient-to-br from-[#8B70F6] to-[#9D7DFF] rounded-xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-br from-[#FF6F3C] to-[#9D7DFF] rounded-xl flex items-center justify-center">
                   <User size={20} className="text-white" />
                 </div>
               )}

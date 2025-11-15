@@ -16,7 +16,7 @@ export default function ProviderCard({
   return (
     <div className="space-y-6">
       <div
-        className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 border border-[#E0E0E0] dark:border-[#404040] hover:shadow-lg transition-all duration-200 cursor-pointer hover:border-[#FF6F3C] dark:hover:border-[#9779FC]"
+        className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 border border-[#E0E0E0] dark:border-[#404040] hover:shadow-lg transition-all duration-200 cursor-pointer hover:border-[#FF6F3C] dark:hover:border-[#FF6F3C]"
         onClick={onClick}
       >
         {/* Avatar */}
@@ -28,7 +28,7 @@ export default function ProviderCard({
               className="w-20 h-20 rounded-2xl object-cover"
             />
           ) : (
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#FF6B9D] to-[#FF8FB3] flex items-center justify-center">
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#FF6F3C] to-[#FF8FB3] flex items-center justify-center">
               <span className="text-3xl font-semibold text-white">
                 {initial}
               </span>
@@ -54,7 +54,7 @@ export default function ProviderCard({
                   </div>
                 </div>
               </div>
-              <button className="text-[#FF6B9D] hover:text-[#F55C91] flex items-center gap-1 text-sm">
+              <button className="text-[#FF6F3C] hover:text-[#FF4300] flex items-center gap-1 text-sm">
                 <Eye size={16} />
                 Смотреть
               </button>
@@ -69,7 +69,7 @@ export default function ProviderCard({
               {categories.map((category) => (
                 <span
                   key={category}
-                  className="px-3 py-1 rounded-full text-xs bg-[#FF6B9D]/10 text-[#FF6B9D] border border-[#FF6B9D]/20"
+                  className="px-3 py-1 rounded-full text-xs bg-[#FF6F3C]/10 text-[#FF6F3C] border border-[#FF6F3C]/20"
                 >
                   {category}
                 </span>

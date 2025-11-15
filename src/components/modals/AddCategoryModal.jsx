@@ -56,7 +56,7 @@ export default function AddCategoryModal({
               type="text"
               value={formData.name}
               onChange={(e) => handleChange("name", e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8B70F6] focus:border-transparent"
+              className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6F3C] focus:border-transparent"
               placeholder="Например: Маникюр"
               required
             />
@@ -70,7 +70,7 @@ export default function AddCategoryModal({
               value={formData.description}
               onChange={(e) => handleChange("description", e.target.value)}
               rows={3}
-              className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8B70F6] focus:border-transparent resize-none"
+              className="w-full px-4 py-3 rounded-xl border border-[#E0E0E0] dark:border-[#404040] bg-white dark:bg-[#262626] text-[#0D0D0D] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6F3C] focus:border-transparent resize-none"
               placeholder="Краткое описание категории..."
             />
           </div>
@@ -89,7 +89,7 @@ export default function AddCategoryModal({
               className={`flex-1 py-3 rounded-xl text-white ${
                 isLoading
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[#8B70F6] hover:bg-[#7E64F2]"
+                  : "bg-[#FF6F3C] hover:bg-[#7E64F2]"
               }`}
             >
               {isLoading ? "Добавление..." : "Добавить"}
